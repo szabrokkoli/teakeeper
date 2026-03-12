@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TeaKeeper Theme Tokens Demo</title>
+    <link rel="stylesheet" href="./design-tokens.css">
+  </head>
+  <body>
+    <main>
+      <section class="hero reveal">
+        <h1>TeaKeeper Herbal Theme</h1>
+        <p class="text-muted">
+          Tokenized visual system with a fresh herbal green identity for both light and dark mode.
+        </p>
+
+        <div class="toolbar">
+          <button class="button button-primary" type="button">Brew Session</button>
+          <button class="button button-secondary" id="theme-toggle" type="button" aria-live="polite">
+            Toggle theme
+          </button>
+          <span id="theme-indicator" class="badge">Theme: auto</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card half reveal">
+          <h2>Color Tokens</h2>
+          <ul class="token-list">
+            <li class="token-row">
+              <span>Primary</span>
+              <span style="display:flex; align-items:center; gap:0.55rem;">
+                <span class="swatch" style="background: var(--color-primary);"></span>
+                <code>--color-primary</code>
+              </span>
+            </li>
+            <li class="token-row">
+              <span>Accent</span>
+              <span style="display:flex; align-items:center; gap:0.55rem;">
+                <span class="swatch" style="background: var(--color-accent);"></span>
+                <code>--color-accent</code>
+              </span>
+            </li>
+            <li class="token-row">
+              <span>Surface</span>
+              <span style="display:flex; align-items:center; gap:0.55rem;">
+                <span class="swatch" style="background: var(--color-bg-elevated);"></span>
+                <code>--color-bg-elevated</code>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card half reveal">
+          <h2>Semantic Status</h2>
+          <p class="text-muted">Semantic tokens support consistent UI meaning.</p>
+          <p>
+            <span class="badge badge-success">Steeping Ready</span>
+            <span class="badge badge-warning">Low Inventory</span>
+            <span class="badge badge-danger">Timer Missed</span>
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <h2>Inputs + Typography</h2>
+          <p>
+            <strong>Heading font:</strong> Fraunces<br>
+            <strong>Body font:</strong> Manrope
+          </p>
+          <label for="tea-note">Tea note</label>
+          <input id="tea-note" class="form-control" type="text" placeholder="Add tasting notes, e.g. soft mint and citrus peel">
+        </article>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var button = document.getElementById('theme-toggle');
+        var indicator = document.getElementById('theme-indicator');
+        var storageKey = 'teakeeper-theme';
+
+        function systemPrefersDark() {
+          return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        function getInitialTheme() {
+          var saved = localStorage.getItem(storageKey);
+          if (saved === 'light' || saved === 'dark') {
+            return saved;
+          }
+          return systemPrefersDark() ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme, source) {
+          root.setAttribute('data-theme', theme);
+          indicator.textContent = 'Theme: ' + theme + (source ? ' (' + source + ')' : '');
+          button.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode');
+        }
+
+        var currentTheme = getInitialTheme();
+        applyTheme(currentTheme, localStorage.getItem(storageKey) ? 'saved' : 'auto');
+
+        button.addEventListener('click', function () {
+          currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          localStorage.setItem(storageKey, currentTheme);
+          applyTheme(currentTheme, 'saved');
+        });
+
+        if (window.matchMedia) {
+          var media = window.matchMedia('(prefers-color-scheme: dark)');
+          media.addEventListener('change', function () {
+            if (!localStorage.getItem(storageKey)) {
+              currentTheme = media.matches ? 'dark' : 'light';
+              applyTheme(currentTheme, 'auto');
+            }
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
