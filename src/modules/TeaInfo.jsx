@@ -27,7 +27,7 @@ export default function TeaInfo() {
 
   return (
     <section>
-      <h1 className="tea-title">Tea List</h1>
+      <h1 className="tea-title">Explore teas</h1>
       <input
         className="form-control"
         type="text"
