@@ -1,5 +1,106 @@
+.adminContainer {
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-strong);
+  margin: var(--space-6) auto;
+  max-width: 900px;
+  overflow: hidden;
+}
+
+.adminHeader {
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-glass);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.adminTitle {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  background: var(--color-bg-soft);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--space-2);
+  gap: var(--space-1);
+}
+
+.tabButton {
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  /* Kényszerítsük a színt, hogy ne legyen fehér/átlátszó! */
+  color: var(--color-text) !important; 
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 100px;
+  display: inline-block; /* Biztosítsuk, hogy ne essen össze */
+  opacity: 1 !important; /* Ne legyen átlátszó */
+}
+
+.activeTab {
+  color: var(--color-primary) !important;
+  border-bottom-color: var(--color-primary) !important;
+  font-weight: 800;
+}
+
+.tabContent {
+  padding: var(--space-5);
+  min-height: 400px;
+}
+
+.adminForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 400px;
+  margin-bottom: var(--space-6);
+  background: var(--color-bg);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.adminInput {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+}
+
+.submitButton {
+  background: var(--color-primary);
+  color: white;
+  padding: var(--space-2);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: var(--space-2);
+}
+
+.submitButton:hover {
+  filter: brightness(1.1);
+}
+
 .itemList {
-  margin-top: var(--space-6);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--space-3);
@@ -15,6 +116,14 @@
   align-items: center;
 }
 
+.itemText {
+  display: flex;
+  flex-direction: column;
+}
+
+.huName { font-weight: bold; }
+.enName { font-size: 0.8rem; color: var(--color-text-muted); }
+
 .deleteButton {
   background: none;
   border: none;
@@ -22,9 +131,4 @@
   font-size: 1.5rem;
   cursor: pointer;
   line-height: 1;
-  padding: 0 var(--space-2);
-}
-
-.deleteButton:hover {
-  transform: scale(1.2);
 }

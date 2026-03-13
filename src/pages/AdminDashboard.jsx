@@ -1,90 +1,61 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { supabase } from '../supabaseClient'; // Győződj meg róla, hogy az elérési út jó!
+import { supabase } from '../supabaseClient';
 import styles from '../styles/AdminDashboard.module.css';
+import StatsOverview from '../components/StatsOverview';
 
 const localStrings = {
-  hu: {
-    title: "Admin Vezérlőpult",
-    tabTeas: "Teák",
-    tabCategories: "Kategóriák",
-    tabTags: "Címkék",
-    tabRecipes: "Receptek",
-    add: "Hozzáadás",
-    nameHu: "Név (Magyar)",
-    nameEn: "Név (Angol)",
-    loading: "Folyamatban...",
-    success: "Sikeresen mentve!",
-    error: "Hiba történt a mentéskor.",
-    deleteConfirm: "Biztosan törlöd?"
-  },
-  en: {
-    title: "Admin Dashboard",
-    tabTeas: "Teas",
-    tabCategories: "Categories",
-    tabTags: "Tags",
-    tabRecipes: "Recipes",
-    add: "Add New",
-    nameHu: "Name (Hungarian)",
-    nameEn: "Name (English)",
-    loading: "Loading...",
-    success: "Saved successfully!",
-    error: "Error while saving.",
-    deleteConfirm: "Are you sure?"
-  }
+  hu: { title: "Admin Vezérlőpult", tabTeas: "Teák", tabCategories: "Kategóriák", tabTags: "Címkék", tabRecipes: "Receptek", add: "Hozzáadás", nameHu: "Név (HU)", nameEn: "Név (EN)" },
+  en: { title: "Admin Dashboard", tabTeas: "Teas", tabCategories: "Categories", tabTags: "Tags", tabRecipes: "Recipes", add: "Add New", nameHu: "Name (HU)", nameEn: "Name (EN)" }
 };
 
 export default function AdminDashboard() {
   const { lang } = useLanguage();
-  const s = localStrings[lang];
+  const s = localStrings[lang || 'hu'] || localStrings.hu;
   
-  const [activeTab, setActiveTab] = useState('teas');
+  const [activeTab, setActiveTab] = useState('categories');
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({ name_hu: '', name_en: '' });
+  const [formData, setFormData] = useState({ hu: '', en: '' }); // JSON szerkezetnek megfelelően
   const [loading, setLoading] = useState(false);
 
-  // Adatok betöltése az aktuális fül alapján
-  const fetchItems = async () => {
-    if (activeTab === 'teas' || activeTab === 'recipes') return;
-    
-    const table = activeTab === 'categories' ? 'categories' : 'tags';
-    const { data, error } = await supabase
-      .from(table)
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (!error) setItems(data);
+  const getTableName = (tab) => {
+    return tab === 'categories' ? 'tea_categories' : 'tags';
   };
 
-  useEffect(() => {
-    fetchItems();
-  }, [activeTab]);
+  const fetchItems = async () => {
+    if (activeTab === 'teas' || activeTab === 'recipes') return;
+    setLoading(true);
+    const { data, error } = await supabase.from(getTableName(activeTab)).select('*');
+    if (error) console.error("Hiba:", error.message);
+    else setItems(data || []);
+    setLoading(false);
+  };
 
-  // Hozzáadás funkció
+  useEffect(() => { fetchItems(); }, [activeTab]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name_hu || !formData.name_en) return;
+    if (!formData.hu || !formData.en) return;
 
     setLoading(true);
-    const table = activeTab === 'categories' ? 'categories' : 'tags';
-    
+    // Itt a trükk: a 'name' oszlopba küldjük a teljes objektumot
     const { error } = await supabase
-      .from(table)
-      .insert([formData]);
+      .from(getTableName(activeTab))
+      .insert([{ name: { hu: formData.hu, en: formData.en } }]);
 
     if (!error) {
-      setFormData({ name_hu: '', name_en: '' });
+      setFormData({ hu: '', en: '' });
       fetchItems();
+    } else {
+      alert("Hiba: " + error.message);
     }
     setLoading(false);
   };
 
-  // Törlés funkció
   const handleDelete = async (id) => {
-    if (!window.confirm(s.deleteConfirm)) return;
-    const table = activeTab === 'categories' ? 'categories' : 'tags';
-    const { error } = await supabase.from(table).delete().eq('id', id);
-    if (!error) fetchItems();
+    if (!window.confirm("Biztosan törlöd?")) return;
+    await supabase.from(getTableName(activeTab)).delete().eq('id', id);
+    fetchItems();
   };
 
   return (
@@ -93,6 +64,8 @@ export default function AdminDashboard() {
         <h1 className={styles.adminTitle}>{s.title}</h1>
       </header>
 
+      <StatsOverview lang={lang} onCardClick={(tab) => setActiveTab(tab)} />
+
       <nav className={styles.tabs}>
         {['teas', 'categories', 'tags', 'recipes'].map((tab) => (
           <button 
@@ -100,59 +73,52 @@ export default function AdminDashboard() {
             className={`${styles.tabButton} ${activeTab === tab ? styles.activeTab : ''}`}
             onClick={() => setActiveTab(tab)}
           >
-            {s[`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`]}
+            {s[`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`] || tab}
           </button>
         ))}
       </nav>
 
       <div className={styles.tabContent}>
-        {/* Kategóriák és Címkék Form (Ugyanazt a logikát használják) */}
         {(activeTab === 'categories' || activeTab === 'tags') && (
-          <div className={styles.formContainer}>
-            <h2>{activeTab === 'categories' ? s.tabCategories : s.tabTags}</h2>
-            
-            <form onSubmit={handleSubmit} className={styles.formGrid}>
+          <section>
+            <form onSubmit={handleSubmit} className={styles.adminForm}>
               <div className={styles.inputGroup}>
                 <label className={styles.label}>{s.nameHu}</label>
                 <input 
-                  type="text" 
-                  className="input" 
-                  value={formData.name_hu}
-                  onChange={(e) => setFormData({...formData, name_hu: e.target.value})}
+                  className={styles.adminInput}
+                  value={formData.hu}
+                  onChange={e => setFormData({...formData, hu: e.target.value})}
                   required
                 />
               </div>
               <div className={styles.inputGroup}>
                 <label className={styles.label}>{s.nameEn}</label>
                 <input 
-                  type="text" 
-                  className="input" 
-                  value={formData.name_en}
-                  onChange={(e) => setFormData({...formData, name_en: e.target.value})}
+                  className={styles.adminInput}
+                  value={formData.en}
+                  onChange={e => setFormData({...formData, en: e.target.value})}
                   required
                 />
               </div>
-              <button type="submit" className="button button-primary" disabled={loading}>
-                {loading ? s.loading : s.add}
+              <button type="submit" className={styles.submitButton} disabled={loading}>
+                {loading ? "..." : s.add}
               </button>
             </form>
 
             <div className={styles.itemList}>
               {items.map(item => (
                 <div key={item.id} className={styles.adminItemCard}>
-                  <div>
-                    <strong>{item.name_hu}</strong> / <small>{item.name_en}</small>
+                  <div className={styles.itemText}>
+                    {/* Itt érjük el a JSON-t: item.name.hu és item.name.en */}
+                    <span className={styles.huName}>{item.name?.hu || 'Nincs HU név'}</span>
+                    <span className={styles.enName}>{item.name?.en || 'Nincs EN név'}</span>
                   </div>
                   <button onClick={() => handleDelete(item.id)} className={styles.deleteButton}>×</button>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         )}
-
-        {/* Teák és Receptek helyőrzője (maradt a tiéd) */}
-        {activeTab === 'teas' && <div><h2>{s.tabTeas}</h2><p className="text-muted">Hamarosan...</p></div>}
-        {activeTab === 'recipes' && <div><h2>{s.tabRecipes}</h2><p className="text-muted">Hamarosan...</p></div>}
       </div>
     </div>
   );

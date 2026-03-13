@@ -24,7 +24,7 @@ export default function TeaCard({ tea }) {
         {/* Kategória és Név */}
         <div className={styles.header}>
           <span className={styles.category}>
-            {tea.tea_categories?.name}
+            {tea.tea_categories?.name[lang]}
           </span>
           <h3 className={styles.title}>{tea.name[lang]}</h3>
         </div>
