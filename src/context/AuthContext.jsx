@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={value}>
       {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '1.5rem', color: 'var(--color-primary)' }}>
+        <div className="adminLoading">
           Rendszer betöltése...
         </div>
       ) : (

@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import TeaCard from '../components/TeaCard';
 import TeaCardSkeleton from '../components/TeaCardSkeleton';
 import styles from '../styles/TeaInfo.module.css';
+import FilterToolbar from '../components/FilterToolbar';
 
 const localStrings = {
   hu: {
@@ -84,37 +85,51 @@ export default function TeaInfo() {
     <section className={styles.container}>
       <h1 className={styles.title}>{s.title}</h1>
 
-      <div className={styles.toolbar}>
-        <select className="filter-control" value={category} onChange={e => setCategory(e.target.value)}>
-          <option value="">{s.categories}</option>
-          <option value="Green">Green / Zöld</option>
-          <option value="Black">Black / Fekete</option>
-          <option value="Herbal">Herbal / Gyógytea</option>
-        </select>
-
-        <select className="filter-control" value={origin} onChange={e => setOrigin(e.target.value)}>
-          <option value="">{s.origins}</option>
-          <option value="china">China / Kína</option>
-          <option value="japan">Japan / Japán</option>
-          <option value="europe">Europe / Európa</option>
-        </select>
-
-        <select className="filter-control" value={selectedTag} onChange={e => setSelectedTag(e.target.value)}>
-          <option value="">{s.tags}</option>
-          <option value={lang === 'hu' ? 'Nyugtató' : 'Calming'}>Nyugtató / Calming</option>
-          <option value={lang === 'hu' ? 'Energizáló' : 'Energizing'}>Energizáló / Energizing</option>
-          <option value={lang === 'hu' ? 'Emésztést segítő' : 'Digestion'}>Emésztést segítő</option>
-        </select>
-
+      <FilterToolbar
+        controls={[
+          {
+            type: 'select',
+            value: category,
+            onChange: e => setCategory(e.target.value),
+            options: [
+              { value: '', label: s.categories },
+              { value: 'Green', label: 'Green / Zöld' },
+              { value: 'Black', label: 'Black / Fekete' },
+              { value: 'Herbal', label: 'Herbal / Gyógytea' }
+            ]
+          },
+          {
+            type: 'select',
+            value: origin,
+            onChange: e => setOrigin(e.target.value),
+            options: [
+              { value: '', label: s.origins },
+              { value: 'china', label: 'China / Kína' },
+              { value: 'japan', label: 'Japan / Japán' },
+              { value: 'europe', label: 'Europe / Európa' }
+            ]
+          },
+          {
+            type: 'select',
+            value: selectedTag,
+            onChange: e => setSelectedTag(e.target.value),
+            options: [
+              { value: '', label: s.tags },
+              { value: lang === 'hu' ? 'Nyugtató' : 'Calming', label: 'Nyugtató / Calming' },
+              { value: lang === 'hu' ? 'Energizáló' : 'Energizing', label: 'Energizáló / Energizing' },
+              { value: lang === 'hu' ? 'Emésztést segítő' : 'Digestion', label: 'Emésztést segítő' }
+            ]
+          }
+        ]}
+      >
         <input
-          className="form-control"
+          className={`${styles.searchInput} form-control`}
           type="text"
           placeholder={s.searchPlaceholder}
           value={search}
           onChange={e => setSearch(e.target.value)}
-          style={{ maxWidth: '320px', marginBottom: 0 }}
         />
-      </div>
+      </FilterToolbar>
 
       <section className={styles.grid}>
         {loading ? (

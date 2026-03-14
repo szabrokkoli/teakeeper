@@ -1,3 +1,79 @@
+/* Modal jobb oldali konténer */
+.modalFlexRight {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+/* Modal felső konténer flex layout */
+.modalFlexContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Modal bal oldali konténer */
+.modalFlexLeft {
+  flex: 1;
+}
+
+/* Modal kép */
+.modalImage {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* Modal szekció (long_description, history) */
+.modalSection {
+  margin-top: 2rem;
+}
+
+/* Modal szekció cím */
+.modalSectionTitle {
+  margin-bottom: 0.5rem;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: all;
+}
+
+.modalContent {
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-strong);
+  padding: 3.2rem 3.2rem;
+  min-width: 320px;
+  width: 100%;
+  max-width: var(--content-max-width);
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: 0.7rem;
+  right: 1.1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--color-primary);
+  cursor: pointer;
+}
 .card {
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
@@ -8,7 +84,6 @@
   overflow: hidden;
   transition: all var(--duration-fast) var(--ease-smooth);
   height: 100%; /* Hogy egy gridben minden kártya egyforma magas legyen */
-}
 
 .card:hover {
   box-shadow: var(--shadow-strong);
@@ -20,49 +95,51 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
 }
 
 .content {
-  padding: var(--space-4);
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+  padding-bottom: var(--space-4);
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Kitölti a maradék helyet */
-}
-
-.header {
-  margin-bottom: var(--space-2);
+  flex-grow: 1;
 }
 
 .category {
   font-size: var(--text-xs);
   text-transform: uppercase;
+  }
   letter-spacing: 0.05em;
   color: var(--color-accent);
   display: block;
   margin-bottom: var(--space-1);
 }
 
-.title {
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  color: var(--color-primary);
-  margin: 0;
+  .actions {
+  display: flex;
+  margin-bottom: var(--space-3);
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+  justify-content: space-between;
 }
 
 .description {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   line-height: var(--leading-base);
-  margin-bottom: var(--space-4);
-  flex-grow: 1; /* A címkéket a kártya aljára tolja */
+  margin-bottom: 0;
+    text-align: justify;
 }
 
 /* Címkék konténere */
 .tagsContainer {
   display: flex;
   flex-wrap: wrap;
+  padding-bottom: var(--space-3);
   gap: var(--space-2);
-  margin-top: auto; /* Mindig a kártya aljára tapad */
 }
 
 /* A te eredeti, nagyon szép badge dizájnod */
@@ -78,4 +155,17 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+/* Kisebb badge csak a fő kártyán */
+.smallBadge {
+  font-size: 0.7rem;
+  padding: 0.18rem 0.45rem;
+}
+/* Tea név sötét színnel */
+.title {
+  color: var(--color-text);
+}
+/* Modal sorkizárt szöveg */
+.modalJustify {
+  text-align: justify;
 }

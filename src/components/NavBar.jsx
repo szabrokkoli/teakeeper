@@ -4,6 +4,7 @@ import brand_name from '../assets/brand_name.png';
 import { useLanguage } from '../context/LanguageContext';
 import styles from '../styles/NavBar.module.css';
 import { useAuth } from '../context/AuthContext';
+import Button from './Button';
 
 const localStrings = {
   hu: {
@@ -76,19 +77,18 @@ export default function NavBar({ activeModule, setActiveModule }) {
           if (key === 'profile') {
             return (
               <div key={key} className={styles.profileWrapper}>
-                <button
+                <Button
+                  icon={icon}
                   className={`button button-secondary ${styles.navButton} ${activeModule === key ? 'button-primary' : ''} ${extraClass || ''}`}
                   onClick={() => handleNavClick(key)}
                 >
-                  {icon && <span>{icon}</span>}
-                  <span>{label}</span>
-                </button>
-                
+                  {label}
+                </Button>
                 {/* Ez a menü csak Hover-re jelenik meg */}
                 <div className={styles.profileDropdown}>
-                  <button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.logoutText}`}>
+                  <Button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.logoutText}`}>
                     {s.logout}
-                  </button>
+                  </Button>
                 </div>
               </div>
             );
@@ -96,30 +96,30 @@ export default function NavBar({ activeModule, setActiveModule }) {
 
           // A többi gomb normálisan renderelődik
           return (
-            <button
+            <Button
               key={key}
+              icon={icon}
               className={`button button-secondary ${styles.navButton} ${activeModule === key ? styles.activeNav : ''} ${extraClass || ''}`}
               onClick={() => handleNavClick(key)}
             >
-              {icon && <span>{icon}</span>}
-              <span>{label}</span>
-            </button>
+              {label}
+            </Button>
           );
         })}
       </div>
 
       <div className={styles.actions}>
-        <button onClick={toggleLanguage} className={`button button-secondary ${styles.langButton}`}>
+        <Button onClick={toggleLanguage} className={`button button-secondary ${styles.langButton}`}>
           {lang === 'hu' ? 'EN' : 'HU'}
-        </button>
-
-        <button
-          className={styles.hamburger}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Menü"
-        >
-          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-        </button>
+        </Button>
+        {typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches && (
+          <Button
+            className={styles.hamburger}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Menü"
+            icon={isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          />
+        )}
       </div>
     </nav>
   );

@@ -87,7 +87,7 @@ export default function Login() {
         </h2>
 
         {error && <div className={styles.errorMessage}>{error}</div>}
-        {message && <div style={{ color: 'var(--color-success)', textAlign: 'center', marginBottom: '1rem' }}>{message}</div>}
+        {message && <div className={styles.successMessage}>{message}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>

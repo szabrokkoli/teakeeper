@@ -11,7 +11,7 @@ export default function TeaCardSkeleton() {
         <div className={`${styles.textLine} ${styles.titleLine} ${styles.pulse}`}></div>
         
         {/* Leírás sorai */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+        <div className={styles.descLines}>
           <div className={`${styles.textLine} ${styles.descLine1} ${styles.pulse}`}></div>
           <div className={`${styles.textLine} ${styles.descLine2} ${styles.pulse}`}></div>
           <div className={`${styles.textLine} ${styles.descLine3} ${styles.pulse}`}></div>

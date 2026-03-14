@@ -3,7 +3,6 @@
     margin: 0 auto;
 }
 
-/* Ez a rész felesleges volt és rontotta a designt, töröld vagy írd át: */
 main.tea-main {
     width: 100%; 
     max-width: var(--content-max-width);
@@ -20,9 +19,7 @@ main.tea-main {
 
 .tea-grid {
     display: grid;
-    /* auto-fill-t használunk, hogy jobban kitöltse a helyet */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--space-4); /* Nagyobb köz a szebb megjelenésért */
     padding: var(--space-2) 0;
 }
 
@@ -35,14 +32,13 @@ main.tea-main {
     display: flex;
     flex-direction: column;
     transition: all var(--duration-fast) var(--ease-smooth);
-    width: 100%;
-    /* margin: 0 auto; - opcionális, ha egyedül van egy sorban, középre teszi */
+    width: 100%; 
 }
 
 .tea-card:hover {
     box-shadow: var(--shadow-strong);
     border-color: var(--color-primary-hover);
-    transform: translateY(-4px); /* Egy kis extra lebegés */
+    transform: translateY(-4px);
 }
 
 .tea-image {
@@ -77,7 +73,7 @@ main.tea-main {
     color: var(--color-text-muted);
     text-align: center;
     line-height: var(--leading-base);
-    flex-grow: 1; /* Hogy a gombok mindig alul legyenek */
+    flex-grow: 1;
     margin-bottom: var(--space-3);
 }
 

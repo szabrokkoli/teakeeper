@@ -39,6 +39,12 @@
   transition: transform var(--duration-fast) var(--ease-smooth);
 }
 
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+}
+
 .hamburger:active {
   transform: scale(0.9);
 }
@@ -50,11 +56,9 @@
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
   white-space: nowrap;
+  font-size: var(--text-xs);
 }
 
-/* --- BRUTÁLISAN EGYÉRTELMŰ AKTÍV STÍLUS --- */
-/* --- BRUTÁLISAN EGYÉRTELMŰ AKTÍV STÍLUS (!important nélkül) --- */
-/* Mivel rákötjük a .navButton-ra, sokkal erősebb lesz a szabály! */
 button.navButton.activeNav {
   background-color: var(--color-text); 
   color: var(--color-bg);
@@ -65,7 +69,6 @@ button.navButton.activeNav {
   transition: all var(--duration-fast) ease;
 }
 
-/* Ha az egér fölé megy (hover), ne változzon vissza "sima" gombbá */
 button.navButton.activeNav:hover {
   background-color: var(--color-text);
   color: var(--color-bg);
