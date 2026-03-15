@@ -51,8 +51,7 @@ export default function TeaCard({ tea }) {
         <Button variant="secondary" onClick={() => setShowModal(true)}>
           {lang === 'hu' ? 'Részletek' : 'Details'}
         </Button>
-        <Button variant="secondary" icon={<FaPlus/>}>        
-        </Button>
+        <Button variant="secondary" icon={<FaPlus />} />
       </div>
 
       {/* Modal */}
@@ -79,7 +78,7 @@ export default function TeaCard({ tea }) {
                     {lang === 'hu' ? 'Elkészítem!' : "Let's make it!"}
                   </Button>
                   <Button variant="secondary" icon={<FaPlus />}>
-                    {lang === 'hu' ? 'Saját teáimhoz adom' : 'Add to My Teas'}
+                    {lang === 'hu' ? 'Teáimhoz adom' : 'Add to My Teas'}
                   </Button>
                 </div>
               </div>

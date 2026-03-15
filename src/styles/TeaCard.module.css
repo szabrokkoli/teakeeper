@@ -1,3 +1,26 @@
+.addToMyTeasMobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+    .actions button {
+      width: auto !important;
+      min-width: 0 !important;
+      display: inline-flex !important;
+    }
+  .addToMyTeasMobile {
+    display: block;
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+  .actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+}
 /* Modal jobb oldali konténer */
 .modalFlexRight {
   flex: 0 0 auto;
@@ -12,6 +35,40 @@
   gap: 2rem;
   margin-bottom: 2rem;
 }
+
+@media (max-width: 600px) {
+    .modalFlexLeft button {
+      padding-left: 0.8em;
+      padding-right: 0.8em;
+      padding-top: 0.7em;
+      padding-bottom: 0.7em;
+      min-height: 2.4em;
+      margin: 0;
+    }
+  .modalFlexContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .modalImage {
+    display: block;
+    width: 90vw !important;
+    height: 110px !important;
+    margin: 0;
+    order: -1;
+    border-radius: 0;
+  }
+  .modalContent {
+    padding: 0;
+    min-width: 0;
+    max-width: 100vw;
+    height: auto;
+    max-height: 100vh;
+  }
+  .modalSection {
+    margin-top: 0;
+  }
+  }
 
 /* Modal bal oldali konténer */
 .modalFlexLeft {
@@ -29,7 +86,7 @@
 
 /* Modal szekció (long_description, history) */
 .modalSection {
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 /* Modal szekció cím */
@@ -52,9 +109,8 @@
 
 .modalContent {
   background: var(--color-bg-elevated);
-  border-radius: var(--radius-md);
   box-shadow: var(--shadow-strong);
-  padding: 3.2rem 3.2rem;
+  padding:5rem 1.8rem;
   min-width: 320px;
   width: 100%;
   max-width: var(--content-max-width);
@@ -84,6 +140,7 @@
   overflow: hidden;
   transition: all var(--duration-fast) var(--ease-smooth);
   height: 100%; /* Hogy egy gridben minden kártya egyforma magas legyen */
+}
 
 .card:hover {
   box-shadow: var(--shadow-strong);
@@ -110,8 +167,7 @@
 
 .category {
   font-size: var(--text-xs);
-  text-transform: uppercase;
-  }
+  text-transform: uppercase !important;
   letter-spacing: 0.05em;
   color: var(--color-accent);
   display: block;
@@ -120,10 +176,13 @@
 
   .actions {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: var(--space-3);
   padding-left: var(--space-4);
   padding-right: var(--space-4);
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .description {
