@@ -1,3 +1,11 @@
+.title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-4);
+  color: var(--color-text);
+  text-align: center;
+}
+
 .homeFeedWrapper {
   max-width: 600px;
   margin: 2rem auto;
@@ -12,6 +20,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  align-items: center;
 }
 
 .postCard {

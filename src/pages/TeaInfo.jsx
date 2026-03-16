@@ -101,14 +101,14 @@ export default function TeaInfo() {
           onClick={() => {}}
           aria-label="Keresés"
         >
-          <FaSearch size={22} color="var(--color-primary)" />
+          <FaSearch size={22} />
         </button>
         <button
           className={styles.filterButton}
           onClick={() => setShowFilterModal(true)}
           aria-label="Szűrés"
         >
-          <FaFilter size={22} color="var(--color-primary)" />
+          <FaFilter size={22} />
         </button>
       </div>
 

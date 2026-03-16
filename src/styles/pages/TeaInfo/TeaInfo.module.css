@@ -18,6 +18,10 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: var(--space-5);
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 12px rgba(88, 129, 87, 0.07);
+  padding: 0.7rem 1.1rem;
 }
  .searchButton, .filterButton {
    background: transparent;
@@ -32,6 +36,10 @@
    transition: background 0.2s;
    color: var(--color-primary);
  }
+ .searchButton svg, .filterButton svg {
+   color: var(--color-bg-elevated);
+   filter: drop-shadow(0 1px 2px rgba(52,78,65,0.10));
+ }
  .searchButton:hover, .filterButton:hover {
    background: var(--color-ambient-2);
  }
@@ -39,6 +47,7 @@
 .searchInput {
   max-width: 320px;
   margin-bottom: 0;
+  background: #fff;
 }
 .container {
   width: 100%;
