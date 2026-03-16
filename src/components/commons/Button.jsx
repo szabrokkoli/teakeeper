@@ -1,6 +1,6 @@
 import React from 'react';
 
-// variant: 'primary' | 'secondary', icon: React elem, children: szöveg vagy elem, className: string, ...buttonProps
+// variant: 'primary' | 'secondary'
 export default function Button({ variant = 'secondary', icon, children, className = '', ...buttonProps }) {
 	const variantClass = variant === 'primary' ? 'button-primary' : 'button-secondary';
 	const hasText = !!children;

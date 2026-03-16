@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from '../../styles/pages/TeaInfo/TeaInfo.module.css';
 
-// controls: array of { type, ...props }
 export default function FilterToolbar({ controls, children }) {
   return (
     <div className={styles.toolbar}>
@@ -20,7 +19,6 @@ export default function FilterToolbar({ controls, children }) {
             </select>
           );
         }
-        // Bővíthető további típusokkal
         return null;
       })}
       {children}

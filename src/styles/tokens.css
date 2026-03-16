@@ -66,6 +66,19 @@
   /* Layout tokens */
   --content-max-width: 1080px;
 }
+    /* Tag color tokens */
+    --tag-barna-bg: #e6d3c2;
+    --tag-barna-text: #6b4f2a;
+    --tag-sarga-bg: #f7f3d7;
+    --tag-sarga-text: #9f8f66;
+    --tag-kek-bg: #dbe7f6;
+    --tag-kek-text: #3a6ea8;
+    --tag-piros-bg: #f6e0e0;
+    --tag-piros-text: #a85a5a;
+    --tag-rozsaszin-bg: #f7e3ef;
+    --tag-rozsaszin-text: #b06b8c;
+    --tag-szurke-bg: #ececec;
+    --tag-szurke-text: #6a6a6a;
 
 [data-theme='dark'] {
   --color-bg: #252a28;

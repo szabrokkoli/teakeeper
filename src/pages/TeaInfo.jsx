@@ -98,7 +98,7 @@ export default function TeaInfo() {
         />
         <button
           className={styles.searchButton}
-          onClick={() => {/* keresés indítása, most csak input változik */}}
+          onClick={() => {}}
           aria-label="Keresés"
         >
           <FaSearch size={22} color="var(--color-primary)" />
@@ -152,7 +152,7 @@ export default function TeaInfo() {
         />
       </Modal>
 
-      <section className={styles.grid}>
+      <section className={styles.teaCardGrid}>
         {loading ? (
           Array(6).fill(0).map((_, index) => (
             <TeaCardSkeleton key={`skeleton-${index}`} />

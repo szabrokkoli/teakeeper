@@ -26,7 +26,6 @@ export default function Profile({ setActiveModule }) {
   return (
     <section className="card">
       <h1>{s.title}</h1>
-      {/* Mobilon jelenjen meg az Admin gomb a cím alatt */}
       {isAdmin && (
         <div className={styles.adminButtonMobile}>
           <Button variant="primary" icon={<FaKey />} onClick={() => setActiveModule('admin')}>

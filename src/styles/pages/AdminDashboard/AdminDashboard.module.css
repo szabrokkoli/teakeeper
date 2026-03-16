@@ -10,7 +10,7 @@
     width: 100%;
   }
 }
-/* Új tea hozzáadása gomb */
+
 .addButton {
   background: var(--color-primary);
   color: #fff;
@@ -35,8 +35,7 @@
 .editRowGroup .inputGroup {
   flex: 1;
   min-width: 0;
-/* Mobilon scrollozható táblázat wrapper */
-/* Mobilon scrollozható táblázat wrapper */
+
 .adminTableWrapper {
   width: 100%;
   overflow-x: auto;
@@ -107,7 +106,7 @@
   gap: var(--space-3);
   margin-top: var(--space-4);
 }
-/* Loading screen style moved from AuthContext.jsx */
+
 .adminLoading {
   display: flex;
   justify-content: center;
@@ -128,7 +127,6 @@
 .adminHeader {
   padding: var(--space-4) var(--space-5);
   background: var(--color-surface-glass);
-  /* border-bottom: 1px solid var(--color-border); */
 }
 
 .adminTitle {
@@ -156,7 +154,6 @@
     gap: 0;
     overflow-x: visible;
     align-items: flex-start;
-    /* justify-content: flex-start; */
   }
   .tabButton {
     display: inline-block;
@@ -176,13 +173,12 @@
   background: transparent;
   border: none;
   border-bottom: 3px solid transparent;
-  /* Kényszerítsük a színt, hogy ne legyen fehér/átlátszó! */
   color: var(--color-text) !important; 
   font-weight: 600;
   cursor: pointer;
   min-width: 100px;
-  display: inline-block; /* Biztosítsuk, hogy ne essen össze */
-  opacity: 1 !important; /* Ne legyen átlátszó */
+  display: inline-block;
+  opacity: 1 !important;
 }
 
 .activeTab {
@@ -284,9 +280,6 @@
   color: var(--color-text);
 }
 
-/* Egységes ikon gomb stílus */
-/* Egységes ikon gomb stílus */
-/* Egységes ikon gomb stílus */
 .editButton, .saveButton, .cancelButton {
   background: none;
   border: none;
@@ -325,7 +318,6 @@
   color: var(--color-danger);
 }
 
-/* InputGroup input szerkesztéskor */
 .adminTable .inputGroup {
   margin-bottom: 0;
 }

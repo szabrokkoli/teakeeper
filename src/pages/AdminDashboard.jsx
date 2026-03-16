@@ -30,8 +30,6 @@ export default function AdminDashboard() {
     if (!error) setTags(data || []);
   }
 
-  // ...existing code...
-
   return (
     <div className={styles.adminContainer}>
       <header className={styles.adminHeader}>

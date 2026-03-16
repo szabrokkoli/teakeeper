@@ -50,7 +50,7 @@ export default function NavBar({ activeModule, setActiveModule }) {
     { key: 'profile', label: s.profile, icon: <FaUser />, show: !!user },
     { key: 'admin', label: 'Admin', icon: <FaKey />, show: profile?.role === 'admin' }
   ];
-  // Mobil nézet detektálása
+  
   const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches;
 
   // Tippek gomb: desktopon szöveg is, mobilon csak ikon

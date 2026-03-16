@@ -17,7 +17,8 @@ const localStrings = {
     switchBtn: "Váltás",
     errorLogin: "Hibás email vagy jelszó.",
     errorSignup: "Hiba a regisztráció során (lehet, hogy már létezik ez az email).",
-    checkEmail: "Kérlek, ellenőrizd az email fiókodat a megerősítő linkért!"
+    checkEmail: "Kérlek, ellenőrizd az email fiókodat a megerősítő linkért!",
+    loginRequired: "Be kell jelentkezned a használathoz!"
   },
   en: {
     loginTitle: "Welcome back!",
@@ -32,7 +33,8 @@ const localStrings = {
     switchBtn: "Switch",
     errorLogin: "Invalid email or password.",
     errorSignup: "Error during signup (email might already be in use).",
-    checkEmail: "Please check your email for the confirmation link!"
+    checkEmail: "Please check your email for the confirmation link!",
+    loginRequired: "You need to log in to use this!"
   }
 };
 
@@ -72,35 +74,38 @@ export default function Login() {
   };
 
   return (
-    <form className={styles.loginForm} onSubmit={handleSubmit}>
-      <label>{s.emailLabel}</label>
-      <input
-        type="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
-      <label>{s.passwordLabel}</label>
-      <input
-        type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit" disabled={loading}>
-        {isLoginView ? s.loginBtn : s.signupBtn}
-      </button>
-      <div>
-        <button
-          type="button"
-          onClick={() => setIsLoginView(v => !v)}
-          className={styles.switchBtn}
-        >
-          {isLoginView ? s.noAccount : s.hasAccount} {s.switchBtn}
+    <>
+      <div className={styles.dangerCard}>{s.loginRequired}</div>
+      <form className={styles.loginForm} onSubmit={handleSubmit}>
+        <label>{s.emailLabel}</label>
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+        <label>{s.passwordLabel}</label>
+        <input
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {isLoginView ? s.loginBtn : s.signupBtn}
         </button>
-      </div>
-      {error && <div className={styles.error}>{error}</div>}
-      {message && <div className={styles.message}>{message}</div>}
-    </form>
+        <div>
+          <button
+            type="button"
+            onClick={() => setIsLoginView(v => !v)}
+            className={styles.switchBtn}
+          >
+            {isLoginView ? s.noAccount : s.hasAccount}
+          </button>
+        </div>
+        {error && <div className={styles.error}>{error}</div>}
+        {message && <div className={styles.message}>{message}</div>}
+      </form>
+    </>
   );
 }

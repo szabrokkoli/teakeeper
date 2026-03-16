@@ -1,3 +1,10 @@
+
+.teaCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2.5rem 2.5rem;
+  margin-bottom: var(--space-5);
+}
 @media (max-width: 600px) {
   .container {
     padding-left: 1rem;
@@ -5,7 +12,7 @@
     padding-bottom: 4rem;
   }
 }
-/* Search bar with icons */
+
 .searchBar {
   display: flex;
   align-items: center;
@@ -28,7 +35,7 @@
  .searchButton:hover, .filterButton:hover {
    background: var(--color-ambient-2);
  }
-/* Search input style moved from TeaInfo.jsx */
+
 .searchInput {
   max-width: 320px;
   margin-bottom: 0;

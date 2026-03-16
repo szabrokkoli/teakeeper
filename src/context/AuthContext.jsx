@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 1. EFFEKT: Csak a munkamenet (Session) figyelése
   useEffect(() => {
     let isMounted = true;
 
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  // 2. EFFEKT: Profil lekérése (Csak akkor fut le, ha a 'user' megváltozik!)
   useEffect(() => {
     let isMounted = true;
 
@@ -66,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     return () => {
       isMounted = false;
     };
-  }, [user]); // <-- Ez a kulcs! Csak akkor kéri le, ha már megvan a user.
+  }, [user]); 
 
   const value = {
     session,

@@ -26,8 +26,7 @@
   cursor: pointer;
   transition: color 0.2s;
 }
-/* Active tab styling */
-/* Cell wrapper for each nav item */
+
 .cell {
   flex: 1;
   height: 100%;

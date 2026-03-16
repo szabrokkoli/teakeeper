@@ -91,8 +91,6 @@ export default function AdminTeaManager({ categories, tags }) {
       history: { hu: teaEditValues.historyHu, en: teaEditValues.historyEn }
     };
     await supabase.from('teas').update(updateObj).eq('id', teaEditId || openTeaId);
-    // tagek frissítése külön
-    // ...tagek update logika ide...
     setLoading(false);
     setTeaEditId(null);
     setOpenTeaId(null);
