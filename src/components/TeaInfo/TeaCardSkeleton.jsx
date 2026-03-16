@@ -1,4 +1,4 @@
-import styles from '../styles/TeaCardSkeleton.module.css';
+import styles from '../../styles/pages/TeaInfo/TeaCardSkeleton.module.css';
 
 export default function TeaCardSkeleton() {
   return (

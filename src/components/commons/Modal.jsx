@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styles from '../styles/TeaCard.module.css';
+import styles from '../../styles/pages/TeaInfo/TeaCard.module.css';
 
 export default function Modal({ open, onClose, children }) {
   if (!open) return null;

@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import './styles/App.css';
 import { useAuth } from './context/AuthContext';
 
-import NavBar from './components/NavBar';
-import BottomNav from './components/BottomNav';
+import NavBar from './components/commons/NavBar';
+import BottomNav from './components/commons/BottomNav';
 import TeaInfo from './pages/TeaInfo';
 import Recipes from './pages/Recipes';
 import MyTeas from './pages/MyTeas';
 import RandomTea from './pages/RandomTea';
 import Friends from './pages/Friends';
-import BlogFAQ from './pages/BlogFAQ';
+import Tips from './pages/Tips';
 import Profile from './pages/Profile';
-import Login from './components/Login';
+import Login from './components/commons/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import HomeFeed from './pages/HomeFeed';
 
@@ -38,7 +38,7 @@ function App() {
           {activeModule === 'teas' && <TeaInfo />}
           {activeModule === 'recipes' && <Recipes />}
           {activeModule === 'random' && <RandomTea />}
-          {activeModule === 'tips' && <BlogFAQ />}
+          {activeModule === 'tips' && <Tips />}
 
           {(!user && (activeModule === 'login' || activeModule === 'signup')) && <Login />}
 
@@ -46,7 +46,7 @@ function App() {
             <>
               {activeModule === 'myteas' && <MyTeas />}
               {activeModule === 'friends' && <Friends />}
-              {activeModule === 'profile' && <Profile />}
+              {activeModule === 'profile' && <Profile setActiveModule={setActiveModule} />}
               {activeModule === 'admin' && profile?.role === 'admin' && <AdminDashboard />}
             </>
           ) : (

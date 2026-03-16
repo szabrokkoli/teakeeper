@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-// JAVÍTÁS: Egy szinttel feljebb van a gyökérben
-import { supabase } from '../supabaseClient'; 
-// JAVÍTÁS: Két szinttel feljebb, majd styles mappa
-import styles from '../styles/StatsOverview.module.css';
+import { supabase } from '../../services/supabaseClient';
+import styles from '../../styles/pages/AdminDashboard/StatsOverview.module.css';
 
 export default function StatsOverview({ lang, onCardClick }) {
   const [stats, setStats] = useState({
@@ -23,7 +21,6 @@ export default function StatsOverview({ lang, onCardClick }) {
   useEffect(() => {
     async function getStats() {
       setLoading(true);
-      // Párhuzamosan lekérjük az összes tábla darabszámát
       const [teas, cats, tags, recipes] = await Promise.all([
         supabase.from('teas').select('*', { count: 'exact', head: true }),
         supabase.from('tea_categories').select('*', { count: 'exact', head: true }),
@@ -56,7 +53,6 @@ export default function StatsOverview({ lang, onCardClick }) {
         <div 
           key={item.id} 
           className={styles.statCard}
-          onClick={() => onCardClick(item.id)}
         >
           <span className={styles.statLabel}>{item.label}</span>
           <span className={styles.statValue}>

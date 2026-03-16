@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { teaService } from '../services/teaService';
 import { useLanguage } from '../context/LanguageContext';
-import TeaCard from '../components/TeaCard';
-import TeaCardSkeleton from '../components/TeaCardSkeleton';
-import styles from '../styles/TeaInfo.module.css';
-import FilterToolbar from '../components/FilterToolbar';
-import Modal from '../components/Modal';
+import TeaCard from '../components/TeaInfo/TeaCard';
+import TeaCardSkeleton from '../components/TeaInfo/TeaCardSkeleton';
+import styles from '../styles/pages/TeaInfo/TeaInfo.module.css';
+import FilterToolbar from '../components/commons/FilterToolbar';
+import Modal from '../components/commons/Modal';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 
 const localStrings = {

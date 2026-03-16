@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/AdminDashboard.module.css';
+import styles from '../../styles/pages/AdminDashboard/AdminDashboard.module.css';
 
 // label: string, value: string, onChange: fn, inputProps: object
 export default function InputGroup({ label, value, onChange, inputProps }) {

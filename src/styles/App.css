@@ -102,3 +102,7 @@ main.tea-main {
     outline: none;
     box-shadow: 0 0 0 3px var(--color-primary-shadow);
 }
+
+.homeFeedWrapper {
+  padding: 2rem;
+}

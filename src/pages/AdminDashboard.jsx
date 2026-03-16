@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
-import { supabase } from '../supabaseClient';
-import styles from '../styles/AdminDashboard.module.css';
-import StatsOverview from '../components/StatsOverview';
-import TabNavigation from '../components/TabNavigation';
+import { supabase } from '../services/supabaseClient';
+import styles from '../styles/pages/AdminDashboard/AdminDashboard.module.css';
+import StatsOverview from '../components/Admin/StatsOverview';
+import TabNavigation from '../components/commons/TabNavigation';
 import AdminTeaManager from '../components/Admin/AdminTeaManager';
 import AdminCategoryManager from '../components/Admin/AdminCategoryManager';
 import AdminTagManager from '../components/Admin/AdminTagManager';

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FaUser, FaMugHot, FaUsers, FaBars, FaTimes, FaKey, FaLightbulb } from 'react-icons/fa';
-import brand_name from '../assets/brand_name.png';
-import { useLanguage } from '../context/LanguageContext';
-import styles from '../styles/NavBar.module.css';
-import { useAuth } from '../context/AuthContext';
+import brand_name from '../../assets/brand_name.png';
+import { useLanguage } from '../../context/LanguageContext';
+import styles from '../../styles/commons/NavBar.module.css';
+import { useAuth } from '../../context/AuthContext';
 import Button from './Button';
 
 const localStrings = {
@@ -35,11 +35,10 @@ const localStrings = {
 
 export default function NavBar({ activeModule, setActiveModule }) {
   const { lang, toggleLanguage } = useLanguage();
-  const { user, profile, signOut } = useAuth(); // Itt lekérjük a profilt is az Admin gombhoz
+  const { user, profile, signOut } = useAuth();
   const s = localStrings[lang];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // A menüpontok listája (benne az Admin gombbal!)
   const navItems = [
     { key: 'teas', label: s.teas, show: true },
     { key: 'recipes', label: s.recipes, show: true },
@@ -51,13 +50,18 @@ export default function NavBar({ activeModule, setActiveModule }) {
     { key: 'profile', label: s.profile, icon: <FaUser />, show: !!user },
     { key: 'admin', label: 'Admin', icon: <FaKey />, show: profile?.role === 'admin' }
   ];
-  // Tippek gomb felülre, profil mellé
+  // Mobil nézet detektálása
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches;
+
+  // Tippek gomb: desktopon szöveg is, mobilon csak ikon
   const tipsButton = (
     <Button
       icon={<FaLightbulb />}
       className={`button button-secondary ${styles.navButton}`}
       onClick={() => handleNavClick('blog')}
-    />
+    >
+      {!isMobile && s.blog}
+    </Button>
   );
 
   const visibleNavItems = navItems.filter(item => item.show);
@@ -83,62 +87,31 @@ export default function NavBar({ activeModule, setActiveModule }) {
         onClick={() => setActiveModule('home')}
       />
 
-      {/* Mobilon, ha be van jelentkezve, ne jelenjen meg a menü */}
-      {!(typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches && user) && (
-        <div className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}>
-          {typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches && !user && isMenuOpen ? (
-            <>
-              <Button
-                variant="primary"
-                className={`button ${styles.navButton} button-login`}
-                onClick={() => handleNavClick('login')}
-              >
-                {s.login}
-              </Button>
-              <Button
-                className={`button button-secondary ${styles.navButton} button-signup`}
-                onClick={() => handleNavClick('signup')}
-              >
-                {s.signup}
-              </Button>
-            </>
-          ) : (
-            visibleNavItems.map(({ key, label, icon, extraClass }) => {
-              if (key === 'profile') {
-                return (
-                  <Button
-                    key={key}
-                    icon={icon}
-                    className={`button button-secondary ${styles.navButton} ${activeModule === key ? 'button-primary' : ''} ${extraClass || ''}`}
-                    onClick={() => handleNavClick(user ? 'profile' : 'login')}
-                    style={{ pointerEvents: 'auto' }}
-                  >
-                    {label}
-                  </Button>
-                );
-              }
-              // A többi gomb normálisan renderelődik
-              return (
-                <Button
-                  key={key}
-                  icon={icon}
-                  className={`button button-secondary ${styles.navButton} ${activeModule === key ? styles.activeNav : ''} ${extraClass || ''}`}
-                  onClick={() => handleNavClick(key)}
-                >
-                  {label}
-                </Button>
-              );
-            })
-          )}
+      {/* Csak asztali nézetben (desktop) jelenítjük meg a főmenüt */}
+      {!isMobile && (
+        <div className={styles.menu}>
+          {visibleNavItems.map(({ key, label, icon, extraClass }) => (
+            <Button
+              key={key}
+              icon={icon}
+              className={`button button-secondary ${styles.navButton} ${activeModule === key ? styles.activeNav : ''} ${extraClass || ''}`}
+              onClick={() => handleNavClick(key)}
+            >
+              {label}
+            </Button>
+          ))}
         </div>
       )}
 
+      {/* Ez a rész felel a jobb oldali ikonokért, ami mobilon is látszik */}
       <div className={styles.actions}>
         <Button onClick={toggleLanguage} className={`button button-secondary ${styles.langButton}`}>
           {lang === 'hu' ? 'EN' : 'HU'}
         </Button>
         {tipsButton}
-        {typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches && (
+        
+        {/* Mobilos Profil/Login gomb (a hamburger osztályt kapja a CSS-ed alapján) */}
+        {isMobile && (
           <Button
             className={styles.hamburger}
             onClick={() => handleNavClick(user ? 'profile' : 'login')}

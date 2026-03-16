@@ -5,6 +5,17 @@
   margin-bottom: 2rem;
 }
 
+@media (max-width: 600px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+  }
+  .statCard {
+    padding: 0.7rem;
+    min-width: 0;
+  }
+}
+
 .statCard {
   background: var(--color-bg-elevated);
   padding: 1.5rem;

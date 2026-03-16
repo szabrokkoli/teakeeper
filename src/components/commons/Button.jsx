@@ -6,16 +6,11 @@ export default function Button({ variant = 'secondary', icon, children, classNam
 	const hasText = !!children;
 	return (
 		<button
-			className={`button ${variantClass} ${className}`.trim()}
+			className={`button ${variantClass} ${hasText ? 'button-has-text' : ''} ${className}`.trim()}
 			{...buttonProps}
-			style={{
-				display: 'inline-flex',
-				alignItems: 'center',
-				gap: hasText ? '0.5rem' : 0
-			}}
 		>
-			{icon && <span>{icon}</span>}
-			{hasText && <span>{children}</span>}
+			{icon && <span className="button-icon">{icon}</span>}
+			{hasText && <span className="button-text">{children}</span>}
 		</button>
 	);
 }

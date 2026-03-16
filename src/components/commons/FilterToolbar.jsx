@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/TeaInfo.module.css';
+import styles from '../../styles/pages/TeaInfo/TeaInfo.module.css';
 
 // controls: array of { type, ...props }
 export default function FilterToolbar({ controls, children }) {

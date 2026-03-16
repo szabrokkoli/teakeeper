@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaHome, FaMugHot, FaBook, FaRandom, FaUsers, FaSearch } from 'react-icons/fa';
-import styles from '../styles/BottomNav.module.css';
+import styles from '../../styles/commons/BottomNav.module.css';
 
 const navItems = [
   { key: 'home', icon: <FaHome />, label: 'Home' },
