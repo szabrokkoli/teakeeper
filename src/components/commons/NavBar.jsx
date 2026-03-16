@@ -57,7 +57,7 @@ export default function NavBar({ activeModule, setActiveModule }) {
   const tipsButton = (
     <Button
       icon={<FaLightbulb />}
-      className={`button button-secondary ${styles.navButton}`}
+      className={styles.navButton}
       onClick={() => handleNavClick('blog')}
     >
       {!isMobile && s.blog}
@@ -87,14 +87,14 @@ export default function NavBar({ activeModule, setActiveModule }) {
         onClick={() => setActiveModule('home')}
       />
 
-      {/* Csak asztali nézetben (desktop) jelenítjük meg a főmenüt */}
+      {/* Főmenü asztali nézetben */}
       {!isMobile && (
         <div className={styles.menu}>
           {visibleNavItems.map(({ key, label, icon, extraClass }) => (
             <Button
               key={key}
               icon={icon}
-              className={`button button-secondary ${styles.navButton} ${activeModule === key ? styles.activeNav : ''} ${extraClass || ''}`}
+              className={`styles.navButton ${activeModule === key ? styles.activeNav : ''} ${extraClass || ''}`}
               onClick={() => handleNavClick(key)}
             >
               {label}
@@ -103,17 +103,15 @@ export default function NavBar({ activeModule, setActiveModule }) {
         </div>
       )}
 
-      {/* Ez a rész felel a jobb oldali ikonokért, ami mobilon is látszik */}
       <div className={styles.actions}>
-        <Button onClick={toggleLanguage} className={`button button-secondary ${styles.langButton}`}>
+        <Button onClick={toggleLanguage} className={styles.navButton}>
           {lang === 'hu' ? 'EN' : 'HU'}
         </Button>
         {tipsButton}
         
-        {/* Mobilos Profil/Login gomb (a hamburger osztályt kapja a CSS-ed alapján) */}
         {isMobile && (
           <Button
-            className={styles.hamburger}
+            className={styles.navButton}
             onClick={() => handleNavClick(user ? 'profile' : 'login')}
             aria-label="Profil"
             icon={<FaUser size={24} />}

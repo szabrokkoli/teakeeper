@@ -16,7 +16,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import HomeFeed from './pages/HomeFeed';
 
 function App() {
-  const [activeModule, setActiveModule] = useState('teas');
+  const [activeModule, setActiveModule] = useState('home');
   const { user, profile } = useAuth();
 
   useEffect(() => {

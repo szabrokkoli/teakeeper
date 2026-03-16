@@ -90,16 +90,26 @@ export default function TeaCard({ tea }) {
                 </div>
                 {/* long_description és history megjelenítése */}
                 {tea.long_description?.[lang] && (
-                  <div className={styles.longDescription} style={{ marginTop: '1rem', textAlign: 'justify' }}>
-                    <strong>{lang === 'hu' ? 'Leírás:' : 'Description:'}</strong>
-                    <p style={{ textAlign: 'justify' }}>{tea.long_description[lang]}</p>
-                  </div>
+                  <>
+                    <strong style={{ display: 'block', marginBottom: '1rem', marginTop: '2.5rem' }}>
+                      <span role="img" aria-label="tea" style={{ fontSize: '1.6em', verticalAlign: 'middle', marginRight: '0.5rem' }}>🍵</span>
+                      {lang === 'hu' ? 'Mit kell tudni erről a Teáról:' : 'What to know about this Tea:'}
+                    </strong>
+                    <div className={styles.longDescriptionCard}>
+                      <p style={{ textAlign: 'justify', margin: 0 }}>{tea.long_description[lang]}</p>
+                    </div>
+                  </>
                 )}
                 {tea.history?.[lang] && (
-                  <div className={styles.history} style={{ marginTop: '1rem', textAlign: 'justify' }}>
-                    <strong>{lang === 'hu' ? 'Történet:' : 'History:'}</strong>
-                    <p style={{ textAlign: 'justify' }}>{tea.history[lang]}</p>
-                  </div>
+                  <>
+                    <strong style={{ display: 'block', marginTop: '2.5rem' }}>
+                      <span role="img" aria-label="history" style={{ fontSize: '1.6em', verticalAlign: 'middle', marginRight: '0.5rem' }}>📖</span>
+                      {lang === 'hu' ? 'A Tea története:' : 'The History of this Tea:'}
+                    </strong>
+                    <div className={styles.longDescriptionCard} style={{ marginTop: '1rem' }}>
+                      <p style={{ textAlign: 'justify', margin: 0 }}>{tea.history[lang]}</p>
+                    </div>
+                  </>
                 )}
               </div>
             </div>

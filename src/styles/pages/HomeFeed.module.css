@@ -1,0 +1,43 @@
+.homeFeedWrapper {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.postList {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.postCard {
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(52, 78, 65, 0.08);
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.author {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.date {
+  color: var(--color-text-secondary);
+  font-size: 0.9em;
+}
+
+.postContent {
+  color: var(--color-text);
+  font-size: 1.1em;
+}

@@ -125,6 +125,15 @@
   width: 100%;
 }
 
+.longDescriptionCard {
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(52, 78, 65, 0.08);
+  color: var(--color-text-secondary);
+}
+
 .card:hover {
   box-shadow: var(--shadow-strong);
   border-color: var(--color-primary-hover);
@@ -206,9 +215,6 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-}
-
-.smallBadge {
   font-size: 0.7rem;
   padding: 0.18rem 0.45rem;
 }

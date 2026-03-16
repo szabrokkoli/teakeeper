@@ -1,4 +1,4 @@
-/* Description lines style moved from TeaCardSkeleton.jsx */
+
 .descLines {
   display: flex;
   flex-direction: column;
@@ -56,7 +56,6 @@
 .descLine1 { width: 100%; }
 .descLine2 { width: 90%; }
 .descLine3 { width: 60%; }
-/* Description lines style moved from TeaCardSkeleton.jsx */
 .descLines {
   display: flex;
   flex-direction: column;
