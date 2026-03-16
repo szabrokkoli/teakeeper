@@ -1,3 +1,5 @@
+/* Restored NavBar styles */
+
 .navbar {
   display: flex;
   align-items: center;
@@ -60,7 +62,7 @@
 }
 
 button.navButton.activeNav {
-  background-color: var(--color-text); 
+  background-color: var(--color-text);
   color: var(--color-bg);
   font-weight: 900;
   border-radius: 50px;
@@ -83,56 +85,6 @@ button.navButton.activeNav:hover {
   border: 1px solid var(--color-border);
 }
 
-.profileWrapper {
-  position: relative;
-  display: inline-flex;
-}
-
-.profileDropdown {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  margin-top: var(--space-1);
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-strong);
-  display: flex;
-  flex-direction: column;
-  min-width: 120px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all var(--duration-fast) ease;
-  z-index: 100;
-  padding: var(--space-1) 0;
-}
-
-.profileWrapper:hover .profileDropdown {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-.dropdownItem {
-  background: transparent;
-  border: none;
-  padding: var(--space-2) var(--space-4);
-  text-align: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: var(--text-sm);
-  width: 100%;
-  transition: background var(--duration-fast) ease;
-}
-
-.logoutText {
-  color: var(--color-danger);
-}
-
-.logoutText:hover {
-  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
-}
 
 @media (max-width: 900px) {
   .hamburger {

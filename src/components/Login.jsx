@@ -81,6 +81,18 @@ export default function Login() {
 
   return (
     <div className={styles.authWrapper}>
+      <div className="card" style={{
+        maxWidth: 400,
+        marginBottom: '1.5rem',
+        background: 'var(--color-danger-bg, #ffeaea)',
+        color: 'var(--color-danger, #d32f2f)',
+        fontWeight: 600,
+        textAlign: 'center',
+        border: '1px solid var(--color-danger, #d32f2f)',
+        boxShadow: '0 2px 8px rgba(220, 0, 0, 0.08)'
+      }}>
+        Ehhez a funkcióhoz jelentkezz be! :)
+      </div>
       <div className={`card ${styles.authCard}`}>
         <h2 className={styles.title}>
           {isLoginView ? s.loginTitle : s.signupTitle}
