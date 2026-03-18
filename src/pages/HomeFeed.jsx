@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../styles/pages/HomeFeed.module.css';
+import styles from '../styles/pages/HomeFeed/HomeFeed.module.css';
 import { useLanguage } from '../context/LanguageContext';
-import { fetchPosts } from '../services/postService';
+import { getAllPosts } from '../services/postService';
 import { supabase } from '../services/supabaseClient';
 import PostCard from '../components/HomeFeed/PostCard';
+import FloatingActionButton from '../components/commons/FloatingActionButton';
+import NewPostModal from '../components/HomeFeed/NewPostModal';
+import { uploadImage, createPost } from '../services/postService';
+import { useAuth } from '../context/AuthContext';
 
 const localStrings = {
   hu: {
@@ -37,17 +41,19 @@ const localStrings = {
 export default function HomeFeed() {
   const { lang } = useLanguage();
   const s = localStrings[lang];
+  const { user } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetchPosts()
+    getAllPosts()
       .then(async data => {
-        console.log('Lekért posztok:', data);
+        // ...
         // szerző UUID-k lekérdezése
         const authorIds = (data || []).map(post => post.author);
         let authorsMap = {};
@@ -87,8 +93,9 @@ export default function HomeFeed() {
         <div className={styles.postList}>
           {posts.map(post => (
             <PostCard key={post.id} post={{
+              id: post.id,
               author: post.authorName || 'Ismeretlen',
-              date: post.created_at || '', // <--- ITT A JAVÍTÁS: A teljes időbélyeget átadjuk!
+              date: post.created_at || '',
               content: post.content,
               imageUrl: post.image_url,
               likes: post.likes_count,
@@ -98,6 +105,51 @@ export default function HomeFeed() {
           ))}
         </div>
       )}
+      <FloatingActionButton onClick={() => setShowModal(true)} />
+      <NewPostModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={async ({ content, image }) => {
+          if (!user) {
+            setError(s.loginRequired);
+            return;
+          }
+          let imageUrl = null;
+          if (image) {
+            imageUrl = await uploadImage(image);
+          }
+          await createPost({ content, imageUrl, author: user.id });
+          setShowModal(false);
+          setLoading(true);
+          getAllPosts()
+            .then(async data => {
+              const authorIds = (data || []).map(post => post.author);
+              let authorsMap = {};
+              if (authorIds.length > 0) {
+                const { data: profiles, error: profilesError } = await supabase
+                  .from('profiles')
+                  .select('user_id, username, avatar_url')
+                  .in('user_id', authorIds);
+                if (!profilesError && profiles) {
+                  profiles.forEach(profile => {
+                    authorsMap[profile.user_id] = profile;
+                  });
+                }
+              }
+              const postsWithAuthors = (data || []).map(post => ({
+                ...post,
+                authorName: authorsMap[post.author]?.username || post.author,
+                avatarUrl: authorsMap[post.author]?.avatar_url || null
+              }));
+              setPosts(postsWithAuthors);
+              setLoading(false);
+            })
+            .catch(err => {
+              setError(err.message || s.error);
+              setLoading(false);
+            });
+        }}
+      />
     </section>
   );
 }

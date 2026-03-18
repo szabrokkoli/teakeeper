@@ -1,6 +1,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../services/supabaseClient';
 
+/**
+ * @typedef {Object} AuthContextType
+ * @property {any} session
+ * @property {any} user
+ * @property {any} profile
+ * @property {boolean} loading
+ * @property {(data: any) => Promise<any>} signUp
+ * @property {(data: any) => Promise<any>} signIn
+ * @property {() => Promise<any>} signOut
+ */
+/** @type {import('react').Context<AuthContextType>} */
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);

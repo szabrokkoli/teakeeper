@@ -1,10 +1,7 @@
 import { supabase } from './supabaseClient';
+import imageCompression from 'browser-image-compression';
 
-/**
- * Lekéri az összes posztot, szerző adataival.
- * @returns {Promise<Array>} posztok tömbje
- */
-export async function fetchPosts() {
+export async function getAllPosts() {
   const { data, error } = await supabase
     .from('posts')
     .select('id, content, image_url, likes_count, comments_count, created_at, updated_at, author')
@@ -14,18 +11,48 @@ export async function fetchPosts() {
   return data;
 }
 
-/**
- * Lekér egy posztot id alapján
- * @param {string} id
- * @returns {Promise<Object>} poszt
- */
-export async function fetchPostById(id) {
+export async function uploadImage(file) {
+  if (!file) return null;
+
+  try {
+    const options = {
+      maxSizeMB: 0.5,
+      maxWidthOrHeight: 1200,
+      useWebWorker: true
+    };
+
+    const compressedFile = await imageCompression(file, options);
+    const fileName = `${Date.now()}_${compressedFile.name}`;
+
+    const { data, error } = await supabase.storage
+      .from('post-images')
+      .upload(fileName, compressedFile);
+
+    if (error) throw error;
+
+    const url = supabase.storage
+      .from('post-images')
+      .getPublicUrl(fileName).data.publicUrl;
+      
+    return url;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function createPost({ content, imageUrl, author }) {
   const { data, error } = await supabase
     .from('posts')
-    .select(`id, content, image_url, likes_count, comments_count, created_at, updated_at, profiles:author (user_id, username, avatar_url)`)
-    .eq('id', id)
-    .single();
-
+    .insert([
+      {
+        content,
+        image_url: imageUrl || null,
+        author,
+        created_at: new Date().toISOString()
+      }
+    ]);
+    
   if (error) throw error;
   return data;
 }
+

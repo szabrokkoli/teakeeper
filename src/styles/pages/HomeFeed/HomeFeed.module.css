@@ -21,6 +21,7 @@
   flex-direction: column;
   gap: 1.5rem;
   align-items: center;
+  padding-bottom: 5rem; /* extra hely a gomb és nav miatt */
 }
 
 .postCard {
