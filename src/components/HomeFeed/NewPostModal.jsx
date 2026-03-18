@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './NewPostModal.module.css';
+import styles from '../../styles/pages/HomeFeed/NewPostModal.module.css';
 
 export default function NewPostModal({ open, onClose, onSubmit }) {
   const [content, setContent] = useState('');

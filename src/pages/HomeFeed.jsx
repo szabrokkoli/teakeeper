@@ -8,6 +8,7 @@ import FloatingActionButton from '../components/commons/FloatingActionButton';
 import NewPostModal from '../components/HomeFeed/NewPostModal';
 import { uploadImage, createPost } from '../services/postService';
 import { useAuth } from '../context/AuthContext';
+import PostCardSkeleton from '../components/HomeFeed/PostCardSkeleton';
 
 const localStrings = {
   hu: {
@@ -86,7 +87,11 @@ export default function HomeFeed() {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>{s.title}</h1>
-      {loading && <div>{s.loading}</div>}
+      {loading && (
+        <div className={styles.postList}>
+          {[...Array(3)].map((_, i) => <PostCardSkeleton key={i} />)}
+        </div>
+      )}
       {error && <div style={{ color: 'var(--color-error)' }}>{s.error}</div>}
       {!loading && !error && posts.length === 0 && <div>{s.noResults}</div>}
       {!loading && !error && posts.length > 0 && (

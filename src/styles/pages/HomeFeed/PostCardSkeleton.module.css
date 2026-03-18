@@ -1,0 +1,82 @@
+.skeletonCard {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all var(--duration-fast) var(--ease-smooth);
+  height: 100%;
+  max-width: 350px;
+  width: 100%;
+  min-height: 220px;
+  margin: 0 auto 1.5rem auto;
+  padding: 0;
+}
+
+.imagePlaceholder {
+  width: 95%;
+  height: 15rem;
+  background: var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 0;
+  padding: 8px;
+  align-self: center;
+  margin: 8px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem;
+.avatarPlaceholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: inline-block;
+  margin-right: 0.7rem;
+}
+
+.headerSkeleton {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.statRowSkeleton {
+  display: flex;
+  gap: 2.4rem;
+  margin-top: 1.2rem;
+  align-items: center;
+}
+.iconSkeleton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: inline-block;
+}
+}
+
+.textLine {
+  height: 18px;
+  background: var(--color-border);
+  border-radius: 8px;
+}
+
+.titleLine {
+  width: 60%;
+}
+
+.pulse {
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
