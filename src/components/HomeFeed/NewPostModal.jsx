@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../styles/pages/HomeFeed/NewPostModal.module.css';
+import Button from '../commons/Button';
+import { useLanguage } from '../../context/LanguageContext';
+import strings from '../../locales';
 
 export default function NewPostModal({ open, onClose, onSubmit }) {
+  const { lang } = useLanguage();
+  const s = strings[lang].newPostModal;
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -29,7 +34,7 @@ export default function NewPostModal({ open, onClose, onSubmit }) {
       setPreview(null);
       onClose();
     } catch (err) {
-      setError(err.message || 'Hiba történt');
+      setError(err.message || s.error);
     } finally {
       setLoading(false);
     }
@@ -40,11 +45,11 @@ export default function NewPostModal({ open, onClose, onSubmit }) {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h2>Új poszt</h2>
+        <h2>{s.title}</h2>
         <form onSubmit={handleSubmit}>
           <textarea
             className={styles.textarea}
-            placeholder="Írd meg a posztod..."
+            placeholder={s.placeholder}
             value={content}
             onChange={e => setContent(e.target.value)}
             rows={6}
@@ -55,12 +60,26 @@ export default function NewPostModal({ open, onClose, onSubmit }) {
             accept="image/*"
             onChange={handleImageChange}
           />
-          {preview && <img src={preview} alt="Kép előnézet" className={styles.preview} />}
+          {preview && <img src={preview} alt={s.previewAlt} className={styles.preview} />}
           {error && <div className={styles.error}>{error}</div>}
-          <button type="submit" disabled={loading} className={styles.submit}>
-            {loading ? 'Mentés...' : 'Küldés'}
-          </button>
-          <button type="button" onClick={onClose} className={styles.close}>Bezárás</button>
+          <Button
+            type="submit"
+            disabled={loading}
+            className={styles.submit}
+            variant="primary"
+            icon={null}
+          >
+            {loading ? s.sending : s.send}
+          </Button>
+          <Button
+            type="button"
+            onClick={onClose}
+            className={styles.close}
+            variant="secondary"
+            icon={null}
+          >
+            {s.close}
+          </Button>
         </form>
       </div>
     </div>

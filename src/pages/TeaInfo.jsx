@@ -4,43 +4,19 @@ import { teaService } from '../services/teaService';
 import { useLanguage } from '../context/LanguageContext';
 import TeaCard from '../components/TeaInfo/TeaCard';
 import TeaCardSkeleton from '../components/TeaInfo/TeaCardSkeleton';
+import strings from '../locales';
 import styles from '../styles/pages/TeaInfo/TeaInfo.module.css';
 import FilterToolbar from '../components/commons/FilterToolbar';
 import Modal from '../components/commons/Modal';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 
-const localStrings = {
-  hu: {
-    title: "Teák felfedezése",
-    loading: "Finom teák betöltése...",
-    searchPlaceholder: "Keresés...",
-    noResults: "Nem találtunk a szűrésnek megfelelő teát.",
-    categories: "Összes kategória",
-    origins: "Összes származási hely",
-    tags: "Minden hatás",
-    error: "Hiba történt a teák betöltésekor."
-  },
-  en: {
-    title: "Explore Teas",
-    loading: "Loading delicious teas...",
-    searchPlaceholder: "Search teas...",
-    noResults: "No teas found matching those filters.",
-    categories: "All Categories",
-    origins: "All Origins",
-    tags: "All Effects",
-    error: "Could not load teas."
-  }
-};
-
 export default function TeaInfo() {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const { lang } = useLanguage();
-  const s = localStrings[lang];
-
+  const s = strings[lang].teaInfo;
   const [teas, setTeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [origin, setOrigin] = useState('');
@@ -51,7 +27,7 @@ export default function TeaInfo() {
       try {
         setLoading(true);
         const data = await teaService.getAllTeas();
-        const sortedData = data.sort((a, b) => 
+        const sortedData = data.sort((a, b) =>
           a.name[lang].localeCompare(b.name[lang])
         );
         setTeas(sortedData);
@@ -78,7 +54,6 @@ export default function TeaInfo() {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>{s.title}</h1>
-
       <div className={styles.searchBar}>
         <input
           className={`${styles.searchInput} form-control`}
@@ -102,7 +77,6 @@ export default function TeaInfo() {
           <FaFilter size={22} />
         </button>
       </div>
-
       <Modal open={showFilterModal} onClose={() => setShowFilterModal(false)}>
         <FilterToolbar
           controls={[
@@ -142,7 +116,6 @@ export default function TeaInfo() {
           ]}
         />
       </Modal>
-
       <section className={styles.teaCardGrid}>
         {loading ? (
           Array(6).fill(0).map((_, index) => (

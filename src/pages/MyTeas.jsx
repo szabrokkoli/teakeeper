@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function MyTeas() {
   return (
     <section className="card">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../services/supabaseClient';
+import { getStats } from '../../services/statsService';
 import styles from '../../styles/pages/AdminDashboard/StatsOverview.module.css';
+import strings from '../../locales';
 
 export default function StatsOverview({ lang, onCardClick }) {
   const [stats, setStats] = useState({
@@ -10,34 +11,16 @@ export default function StatsOverview({ lang, onCardClick }) {
     recipes: 0
   });
   const [loading, setLoading] = useState(true);
-
-  const labels = {
-    hu: { teas: "Teák", categories: "Kategóriák", tags: "Címkék", recipes: "Receptek" },
-    en: { teas: "Teas", categories: "Categories", tags: "Tags", recipes: "Recipes" }
-  };
-
-  const l = labels[lang] || labels.hu;
+  const l = strings[lang]?.statsOverview || strings.hu.statsOverview;
 
   useEffect(() => {
-    async function getStats() {
+    async function fetchStats() {
       setLoading(true);
-      const [teas, cats, tags, recipes] = await Promise.all([
-        supabase.from('teas').select('*', { count: 'exact', head: true }),
-        supabase.from('tea_categories').select('*', { count: 'exact', head: true }),
-        supabase.from('tags').select('*', { count: 'exact', head: true }),
-        supabase.from('recipes').select('*', { count: 'exact', head: true })
-      ]);
-
-      setStats({
-        teas: teas.count || 0,
-        categories: cats.count || 0,
-        tags: tags.count || 0,
-        recipes: recipes.count || 0
-      });
+      const stats = await getStats();
+      setStats(stats);
       setLoading(false);
     }
-
-    getStats();
+    fetchStats();
   }, []);
 
   const statItems = [

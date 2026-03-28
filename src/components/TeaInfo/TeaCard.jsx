@@ -4,8 +4,10 @@ import Modal from '../commons/Modal';
 import Button from '../commons/Button';
 import styles from '../../styles/pages/TeaInfo/TeaCard.module.css';
 import { useLanguage } from '../../context/LanguageContext';
+import strings from '../../locales';
 export default function TeaCard({ tea }) {
   const { lang } = useLanguage();
+  const s = strings[lang].teaCard;
   const [showModal, setShowModal] = React.useState(false);
   const tags = tea.tea_tags?.map(relation => relation.tag) || [];
   return (
@@ -26,7 +28,6 @@ export default function TeaCard({ tea }) {
           <h3 className={styles.title}>{tea.name[lang]}</h3>
         </div>
 
-        {/* Címkék (Tags) megjelenítése */}
         {tags.length > 0 && (
             <div className={styles.tagsContainer}>
               {tags.map((tag) => (
@@ -43,21 +44,18 @@ export default function TeaCard({ tea }) {
 
       </div>
 
-      {/* Gombok */}
       <div className={styles.actions}>
-        <Button variant="primary">
-          {lang === 'hu' ? 'Elkészítem!' : "Let's make it!"}
+        <Button variant="primary" icon={null}>
+          {s.makeIt}
         </Button>
-        <Button variant="secondary" onClick={() => setShowModal(true)}>
-          {lang === 'hu' ? 'Részletek' : 'Details'}
+        <Button variant="secondary" icon={null} onClick={() => setShowModal(true)}>
+          {s.details}
         </Button>
-        <Button variant="secondary" icon={<FaPlus />} />
+        <Button variant="secondary" icon={<FaPlus />}>{''}</Button>
       </div>
 
-      {/* Modal */}
       <Modal open={showModal} onClose={() => setShowModal(false)}>
           <div>
-            {/* Kép a modal tetején */}
             {tea.image_url && (
               <img 
                 src={tea.image_url} 
@@ -81,19 +79,18 @@ export default function TeaCard({ tea }) {
                   </div>
                 )}
                 <div className={styles.modalButtonRow}>
-                  <Button variant="primary">
-                    {lang === 'hu' ? 'Elkészítem!' : "Let's make it!"}
+                  <Button variant="primary" icon={null}>
+                    {s.makeIt}
                   </Button>
                   <Button variant="secondary" icon={<FaPlus />}>
-                    {lang === 'hu' ? 'Teáimhoz adom' : 'To My Teas'}
+                    {s.addToMyTeas}
                   </Button>
                 </div>
-                {/* long_description és history megjelenítése */}
                 {tea.long_description?.[lang] && (
                   <>
                     <strong style={{ display: 'block', marginBottom: '1rem', marginTop: '2.5rem' }}>
                       <span role="img" aria-label="tea" style={{ fontSize: '1.6em', verticalAlign: 'middle', marginRight: '0.5rem' }}>🍵</span>
-                      {lang === 'hu' ? 'Mit kell tudni erről a Teáról:' : 'What to know about this Tea:'}
+                      {s.whatToKnow}
                     </strong>
                     <div className={styles.longDescriptionCard}>
                       <p style={{ textAlign: 'justify', margin: 0 }}>{tea.long_description[lang]}</p>
@@ -104,7 +101,7 @@ export default function TeaCard({ tea }) {
                   <>
                     <strong style={{ display: 'block', marginTop: '2.5rem' }}>
                       <span role="img" aria-label="history" style={{ fontSize: '1.6em', verticalAlign: 'middle', marginRight: '0.5rem' }}>📖</span>
-                      {lang === 'hu' ? 'A Tea története:' : 'The History of this Tea:'}
+                      {s.history}
                     </strong>
                     <div className={styles.longDescriptionCard} style={{ marginTop: '1rem' }}>
                       <p style={{ textAlign: 'justify', margin: 0 }}>{tea.history[lang]}</p>

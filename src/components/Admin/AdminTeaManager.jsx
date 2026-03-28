@@ -1,20 +1,39 @@
+
+
+
 import React, { useEffect, useState } from 'react';
-import { MdDelete, MdCheck, MdClose } from 'react-icons/md';
+import { MdDelete, MdCheck, MdClose, MdEdit } from 'react-icons/md';
 import { supabase } from '../../services/supabaseClient';
 import { teaService } from '../../services/teaService.js';
 import styles from '../../styles/pages/AdminDashboard/AdminDashboard.module.css';
 import InputGroup from '../commons/InputGroup';
 
-export default function AdminTeaManager({ categories, tags }) {
+function AdminTeaManager({ categories, tags }) {
   const [teas, setTeas] = useState([]);
   const [openTeaId, setOpenTeaId] = useState(null);
   const [teaEditId, setTeaEditId] = useState(null);
-  const [teaEditValues, setTeaEditValues] = useState({});
-  const [showTeaModal, setShowTeaModal] = useState(false);
+  const initialTeaEditValues = {
+    nameHu: '',
+    nameEn: '',
+    category: '',
+    originHu: '',
+    originEn: '',
+    descriptionHu: '',
+    descriptionEn: '',
+    image_url: '',
+    longDescHu: '',
+    longDescEn: '',
+    historyHu: '',
+    historyEn: '',
+    tags: []
+  };
+  const [teaEditValues, setTeaEditValues] = useState({ ...initialTeaEditValues });
+  const [showTeaModal, setShowTeaModal] = useState(false); // not used for inline edit
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchTeas();
+    // eslint-disable-next-line
   }, []);
 
   async function fetchTeas() {
@@ -33,6 +52,7 @@ export default function AdminTeaManager({ categories, tags }) {
 
   function handleTeaEdit(tea) {
     setTeaEditId(tea.id);
+    setOpenTeaId(tea.id);
     setTeaEditValues({
       nameHu: tea.name?.hu || '',
       nameEn: tea.name?.en || '',
@@ -48,7 +68,7 @@ export default function AdminTeaManager({ categories, tags }) {
       historyEn: tea.history?.en || '',
       tags: tea.tags?.map(t => String(t.id)) || []
     });
-    setShowTeaModal(true);
+    // setShowTeaModal(true); // not needed for inline
   }
 
   function handleTeaEditChange(e) {
@@ -94,7 +114,7 @@ export default function AdminTeaManager({ categories, tags }) {
     setLoading(false);
     setTeaEditId(null);
     setOpenTeaId(null);
-    setTeaEditValues({});
+    setTeaEditValues({ ...initialTeaEditValues });
     setShowTeaModal(false);
     fetchTeas();
   }
@@ -102,7 +122,7 @@ export default function AdminTeaManager({ categories, tags }) {
   function handleTeaEditCancel() {
     setTeaEditId(null);
     setOpenTeaId(null);
-    setTeaEditValues({});
+    setTeaEditValues({ ...initialTeaEditValues });
     setShowTeaModal(false);
   }
 
@@ -123,19 +143,30 @@ export default function AdminTeaManager({ categories, tags }) {
               return (
                 <React.Fragment key={tea.id}>
                   <tr
-                    className={`${isOpen ? styles.openRow : ''} teaRowClickable`}
-                    onClick={() => {
-                        if (isOpen) {
-                            setOpenTeaId(null);
-                            setTeaEditValues({});
-                        } else {
-                            setOpenTeaId(tea.id);
-                        }
+                    className={isOpen ? styles.openRow : ''}
+                    onClick={e => {
+                      // Only close if already open and not clicking the edit button
+                      if (isOpen) {
+                        setOpenTeaId(null);
+                        setTeaEditId(null);
+                        setTeaEditValues({ ...initialTeaEditValues });
+                      }
                     }}
+                    style={{ cursor: isOpen ? 'pointer' : 'default' }}
                   >
                     <td>{tea.name?.hu}</td>
                     <td>{tea.name?.en}</td>
                     <td>
+                      <button
+                        className={styles.editButton}
+                        title="Szerkesztés"
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleTeaEdit(tea);
+                        }}
+                      >
+                        <MdEdit />
+                      </button>
                       <button
                         className={styles.deleteButton}
                         title="Törlés"
@@ -199,8 +230,8 @@ export default function AdminTeaManager({ categories, tags }) {
                             ))}
                           </div>
                           <div className={styles.modalActions}>
-                            <button className={styles.saveButton} onClick={handleTeaEditSave}><MdCheck /> Mentés</button>
-                            <button className={styles.cancelButton} onClick={handleTeaEditCancel}><MdClose /> Mégse</button>
+                            <button className={styles.saveButton} onClick={handleTeaEditSave} disabled={loading}><MdCheck /> Mentés</button>
+                            <button className={styles.cancelButton} onClick={handleTeaEditCancel} disabled={loading}><MdClose /> Mégse</button>
                           </div>
                         </div>
                       </td>
@@ -249,8 +280,8 @@ export default function AdminTeaManager({ categories, tags }) {
               ))}
             </div>
             <div className={styles.modalActions}>
-              <button className={styles.saveButton} onClick={handleTeaEditSave}><MdCheck /> Mentés</button>
-              <button className={styles.cancelButton} onClick={handleTeaEditCancel}><MdClose /> Mégse</button>
+              <button className={styles.saveButton} onClick={handleTeaEditSave} disabled={loading}><MdCheck /> Mentés</button>
+              <button className={styles.cancelButton} onClick={handleTeaEditCancel} disabled={loading}><MdClose /> Mégse</button>
             </div>
           </div>
         </div>
@@ -258,3 +289,6 @@ export default function AdminTeaManager({ categories, tags }) {
     </section>
   );
 }
+
+export default AdminTeaManager;
+

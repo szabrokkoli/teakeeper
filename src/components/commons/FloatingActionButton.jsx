@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../styles/commons/FloatingActionButton.module.css';
 
 export default function FloatingActionButton({ onClick }) {

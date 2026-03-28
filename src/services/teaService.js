@@ -19,4 +19,20 @@ export const teaService = {
     if (error) throw error;
     return data || [];
   },
+
+  async getAllCategories() {
+    const { data, error } = await supabase
+      .from('tea_categories')
+      .select('*');
+    if (error) throw error;
+    return data || [];
+  },
+
+  async getAllTags() {
+    const { data, error } = await supabase
+      .from('tags')
+      .select('*');
+    if (error) throw error;
+    return data || [];
+  },
 };

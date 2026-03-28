@@ -1,26 +1,9 @@
-import React from 'react';
+
 import { FaHome, FaMugHot, FaBook, FaRandom, FaUsers, FaSearch } from 'react-icons/fa';
 import styles from '../../styles/commons/BottomNav.module.css';
 import { useLanguage } from '../../context/LanguageContext';
-
-const navLabels = {
-  hu: {
-    home: 'Főoldal',
-    teas: 'Teák',
-    recipes: 'Receptek',
-    random: 'Random',
-    friends: 'Barátok',
-    myteas: 'Saját Teáim',
-  },
-  en: {
-    home: 'Home',
-    teas: 'Teas',
-    recipes: 'Recipes',
-    random: 'Random',
-    friends: 'Friends',
-    myteas: 'My Teas',
-  },
-};
+import strings from '../../locales';
+import navKeyToPath from '../../utils/navKeyToPath';
 
 const navItems = [
   { key: 'home', icon: <FaHome /> },
@@ -31,25 +14,47 @@ const navItems = [
   { key: 'myteas', icon: <FaMugHot /> },
 ];
 
-export default function BottomNav({ active, onNavigate }) {
+
+import { useNavigate, useLocation } from 'react-router-dom';
+
+function BottomNav() {
   const { lang } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+
+
+  const getActiveKey = () => {
+    const path = location.pathname;
+    if (path === '/' || path.startsWith('/home')) return 'home';
+    if (path.startsWith('/teas')) return 'teas';
+    if (path.startsWith('/recipes')) return 'recipes';
+    if (path.startsWith('/random')) return 'random';
+    if (path.startsWith('/friends')) return 'friends';
+    if (path.startsWith('/myteas')) return 'myteas';
+    return '';
+  };
+  const activeKey = getActiveKey();
+
   return (
     <nav className={styles.bottomNav}>
       {navItems.map(item => (
         <div
           key={item.key}
-          className={`${styles.cell} ${active === item.key ? styles.cellActive : ''}`}
+          className={`${styles.cell} ${activeKey === item.key ? styles.cellActive : ''}`}
         >
           <button
-            className={active === item.key ? styles.active : ''}
-            onClick={() => onNavigate(item.key)}
-            aria-label={navLabels[lang][item.key]}
+            className={activeKey === item.key ? styles.active : ''}
+            onClick={() => navigate(navKeyToPath[item.key])}
+            aria-label={strings[lang].bottomNav[item.key]}
           >
             {item.icon}
-            <span className={styles.label}>{navLabels[lang][item.key]}</span>
+            <span className={styles.label}>{strings[lang].bottomNav[item.key]}</span>
           </button>
         </div>
       ))}
     </nav>
   );
 }
+
+export default BottomNav;

@@ -305,6 +305,18 @@
 .editButton:hover, .saveButton:hover, .deleteButton:hover, .cancelButton:hover {
   filter: brightness(1.2);
 }
+.editButton {
+  background: none;
+  border: none;
+  color: var(--color-primary, #007bff);
+  cursor: pointer;
+  margin-right: 0.5rem;
+  font-size: 1.2em;
+  transition: color 0.2s;
+}
+.editButton:hover {
+  color: var(--color-accent, #0056b3);
+}
 .tabButton {
   flex: 1;
   padding: var(--space-3) var(--space-4);

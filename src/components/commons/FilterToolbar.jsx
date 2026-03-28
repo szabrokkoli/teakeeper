@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../styles/pages/TeaInfo/TeaInfo.module.css';
 
 export default function FilterToolbar({ controls, children = null }) {

@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import './styles/App.css';
 import { useAuth } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import NavBar from './components/commons/NavBar';
 import BottomNav from './components/commons/BottomNav';
@@ -16,45 +17,30 @@ import AdminDashboard from './pages/AdminDashboard';
 import HomeFeed from './pages/HomeFeed';
 
 function App() {
-  const [activeModule, setActiveModule] = useState('home');
   const { user, profile } = useAuth();
-
-  useEffect(() => {
-    if (user && (activeModule === 'login' || activeModule === 'signup')) {
-      setActiveModule('teas');
-    }
-  }, [user, activeModule]);
-
   return (
-    <div className="app-wrapper">
-      <NavBar activeModule={activeModule} setActiveModule={setActiveModule} />
-      <BottomNav
-        active={activeModule}
-        onNavigate={key => setActiveModule(key)}
-      />
-      <main className="tea-main">
-        <section>
-          {activeModule === 'home' && <HomeFeed />}
-          {activeModule === 'teas' && <TeaInfo />}
-          {activeModule === 'recipes' && <Recipes />}
-          {activeModule === 'random' && <RandomTea />}
-          {activeModule === 'tips' && <Tips />}
-
-          {(!user && (activeModule === 'login' || activeModule === 'signup')) && <Login />}
-
-          {user ? (
-            <>
-              {activeModule === 'myteas' && <MyTeas />}
-              {activeModule === 'friends' && <Friends />}
-              {activeModule === 'profile' && <Profile setActiveModule={setActiveModule} />}
-              {activeModule === 'admin' && profile?.role === 'admin' && <AdminDashboard />}
-            </>
-          ) : (
-            (activeModule === 'myteas' || activeModule === 'friends' || activeModule === 'profile' || activeModule === 'admin') && <Login />
-          )}
-        </section>
-      </main>
-    </div>
+    <Router>
+      <div className="app-wrapper">
+        <NavBar />
+        <BottomNav />
+        <main className="tea-main">
+          <Routes>
+            <Route path="/" element={<HomeFeed />} />
+            <Route path="/teas" element={<TeaInfo />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/random" element={<RandomTea />} />
+            <Route path="/tips" element={<Tips />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/myteas" element={user ? <MyTeas /> : <Navigate to="/login" />} />
+            <Route path="/friends" element={user ? <Friends /> : <Navigate to="/login" />} />
+            <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/admin" element={user && profile?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/" />} />
+            {/* 404 fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 

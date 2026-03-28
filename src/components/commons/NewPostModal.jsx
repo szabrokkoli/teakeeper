@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../styles/commons/NewPostModal.module.css';
 
 export default function NewPostModal({ open, onClose, onSubmit }) {

@@ -1,47 +1,20 @@
+
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/pages/HomeFeed/HomeFeed.module.css';
 import { useLanguage } from '../context/LanguageContext';
 import { getAllPosts } from '../services/postService';
-import { supabase } from '../services/supabaseClient';
+import { getProfilesByIds } from '../services/profileService';
 import PostCard from '../components/HomeFeed/PostCard';
 import FloatingActionButton from '../components/commons/FloatingActionButton';
 import NewPostModal from '../components/HomeFeed/NewPostModal';
 import { uploadImage, createPost } from '../services/postService';
 import { useAuth } from '../context/AuthContext';
 import PostCardSkeleton from '../components/HomeFeed/PostCardSkeleton';
-
-const localStrings = {
-  hu: {
-    title: "Tea Dolgok",
-    loading: "Érdekes posztok betöltése...",
-    noResults: "Nincsenek új posztok :(",
-    error: "Hiba történt a posztok betöltésekor.",
-    relativeTime: {
-      justNow: 'épp most',
-      minute: 'perce',
-      hour: 'órája',
-      day: 'napja',
-      unknown: 'ismeretlen idő'
-    }
-  },
-  en: {
-    title: "Tea Stuff",
-    loading: "Loading funny posts...",
-    noResults: "No new posts :(",
-    error: "Could not load posts :o",
-    relativeTime: {
-      justNow: 'just now',
-      minute: 'minutes ago',
-      hour: 'hours ago',
-      day: 'days ago',
-      unknown: 'unknown time'
-    }
-  }
-};
+import strings from '../locales';
 
 export default function HomeFeed() {
   const { lang } = useLanguage();
-  const s = localStrings[lang];
+  const s = strings[lang].homeFeed;
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(true);
@@ -54,22 +27,11 @@ export default function HomeFeed() {
     setError(null);
     getAllPosts()
       .then(async data => {
-        // ...
-        // szerző UUID-k lekérdezése
         const authorIds = (data || []).map(post => post.author);
         let authorsMap = {};
         if (authorIds.length > 0) {
-          const { data: profiles, error: profilesError } = await supabase
-            .from('profiles')
-            .select('user_id, username, avatar_url')
-            .in('user_id', authorIds);
-          if (!profilesError && profiles) {
-            profiles.forEach(profile => {
-              authorsMap[profile.user_id] = profile;
-            });
-          }
+          authorsMap = await getProfilesByIds(authorIds);
         }
-        // posztok szerző nevét hozzárendezzük
         const postsWithAuthors = (data || []).map(post => ({
           ...post,
           authorName: authorsMap[post.author]?.username || post.author,
@@ -131,15 +93,7 @@ export default function HomeFeed() {
               const authorIds = (data || []).map(post => post.author);
               let authorsMap = {};
               if (authorIds.length > 0) {
-                const { data: profiles, error: profilesError } = await supabase
-                  .from('profiles')
-                  .select('user_id, username, avatar_url')
-                  .in('user_id', authorIds);
-                if (!profilesError && profiles) {
-                  profiles.forEach(profile => {
-                    authorsMap[profile.user_id] = profile;
-                  });
-                }
+                authorsMap = await getProfilesByIds(authorIds);
               }
               const postsWithAuthors = (data || []).map(post => ({
                 ...post,

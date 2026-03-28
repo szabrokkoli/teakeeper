@@ -15,9 +15,13 @@ export default function PostCard({ post }) {
   const [loadingLike, setLoadingLike] = React.useState(false);
 
   React.useEffect(() => {
-    if (user && post.id) {
-      getPostLikeStatus(post.id, user.id).then(setLiked);
+    if (post.id) {
       getPostLikesCount(post.id).then(setLikeCount);
+      if (user) {
+        getPostLikeStatus(post.id, user.id).then(setLiked);
+      } else {
+        setLiked(false);
+      }
     }
   }, [user, post.id]);
 
@@ -42,7 +46,6 @@ export default function PostCard({ post }) {
 
   return (
     <div className={styles.card}>
-      {/* Kép, ha van */}
       {post?.imageUrl && (
         <button
           className={styles.imageButton}
@@ -54,7 +57,14 @@ export default function PostCard({ post }) {
       )}
       <div className={styles.content}>
         <div className={styles.header}>
-          <span className={styles.author}>{post.author}</span>
+          <div className={styles.authorBlock}>
+            {post.avatarUrl ? (
+              <img src={post.avatarUrl} alt="avatar" className={styles.avatar} />
+            ) : (
+              <div className={styles.avatarPlaceholder} />
+            )}
+            <span className={styles.author}>{post.author}</span>
+          </div>
           <span className={styles.date}>{getRelativeTime(post.date, lang)}</span>
         </div>
         <div className={styles.text}>{post.content}</div>
@@ -79,7 +89,6 @@ export default function PostCard({ post }) {
           </span>
         </div>
       </div>
-      {/* Modal kinagyított képhez */}
       <div className={showImageModal ? `${styles.imageModal} ${styles.show}` : styles.imageModal} onClick={() => setShowImageModal(false)}>
         <img src={post.imageUrl} alt="post visual" className={showImageModal ? `${styles.modalImage} ${styles.show}` : styles.modalImage} />
       </div>

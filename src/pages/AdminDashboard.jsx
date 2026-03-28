@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { MdEdit } from 'react-icons/md';
-import { supabase } from '../services/supabaseClient';
+import { useEffect, useState } from 'react';
+import { teaService } from '../services/teaService';
 import styles from '../styles/pages/AdminDashboard/AdminDashboard.module.css';
 import StatsOverview from '../components/Admin/StatsOverview';
 import TabNavigation from '../components/commons/TabNavigation';
@@ -8,27 +7,29 @@ import AdminTeaManager from '../components/Admin/AdminTeaManager';
 import AdminCategoryManager from '../components/Admin/AdminCategoryManager';
 import AdminTagManager from '../components/Admin/AdminTagManager';
 
-// ...existing code...
-
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('teas');
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
+
   useEffect(() => {
-    fetchCategories();
-    fetchTags();
+
+    async function fetchData() {
+      try {
+        const [cat, tag] = await Promise.all([
+          teaService.getAllCategories(),
+          teaService.getAllTags()
+        ]);
+        setCategories(cat);
+        setTags(tag);
+      } catch (e) {
+        setCategories([]);
+        setTags([]);
+      }
+    }
+    fetchData();
   }, []);
-
-  async function fetchCategories() {
-    const { data, error } = await supabase.from('tea_categories').select('*');
-    if (!error) setCategories(data || []);
-  }
-
-  async function fetchTags() {
-    const { data, error } = await supabase.from('tags').select('*');
-    if (!error) setTags(data || []);
-  }
 
   return (
     <div className={styles.adminContainer}>
@@ -47,22 +48,19 @@ export default function AdminDashboard() {
         onTabChange={setActiveTab}
       />
       <div className={styles.tabContent}>
-        {/* --- TEÁK TAB --- */}
+        
         {activeTab === 'teas' && (
           <AdminTeaManager categories={categories} tags={tags} />
         )}
 
-        {/* --- KATEGÓRIÁK TAB --- */}
         {activeTab === 'categories' && (
           <AdminCategoryManager categories={categories} />
         )}
 
-        {/* --- CÍMKÉK TAB --- */}
         {activeTab === 'tags' && (
           <AdminTagManager tags={tags} />
         )}
 
-        {/* --- RECEPTEK TAB --- */}
         {activeTab === 'recipes' && (
           <section>
             <h2>Receptek kezelése</h2>

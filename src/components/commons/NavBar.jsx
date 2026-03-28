@@ -1,44 +1,21 @@
 import { useState } from 'react';
-import { FaUser, FaMugHot, FaUsers, FaBars, FaTimes, FaKey, FaLightbulb } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import navKeyToPath from '../../utils/navKeyToPath';
+import { FaUser, FaMugHot, FaUsers, FaKey, FaLightbulb } from 'react-icons/fa';
 import brand_name from '../../assets/brand_name.png';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from '../../styles/commons/NavBar.module.css';
-import { useAuth } from '../../context/AuthContext';
 import Button from './Button';
+import { useAuth } from '../../context/AuthContext';
+import strings from '../../locales';
 
-const localStrings = {
-  hu: {
-    teas: "Teák",
-    recipes: "Receptek",
-    random: "Válassz nekem Teát",
-    blog: "Tippek",
-    login: "Belépés",
-    signup: "Regisztráció",
-    friends: "Barátok",
-    myteas: "Saját Teáim",
-    profile: "Profil",
-    logout: "Kilépés"
-  },
-  en: {
-    teas: "Teas",
-    recipes: "Recipes",
-    random: "Pick me a Tea",
-    blog: "Tips",
-    login: "Log in",
-    signup: "Sign up",
-    friends: "Tea Friends",
-    myteas: "My Teas",
-    profile: "Profile",
-    logout: "Log out"
-  }
-};
 
-export default function NavBar({ activeModule, setActiveModule }) {
+function NavBar() {
+  const navigate = useNavigate();
   const { lang, toggleLanguage } = useLanguage();
   const { user, profile, signOut } = useAuth();
-  const s = localStrings[lang];
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const s = strings[lang].navBar;
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches;
   const navItems = [
     { key: 'teas', label: s.teas, show: true },
     { key: 'recipes', label: s.recipes, show: true },
@@ -50,10 +27,7 @@ export default function NavBar({ activeModule, setActiveModule }) {
     { key: 'profile', label: s.profile, icon: <FaUser />, show: !!user },
     { key: 'admin', label: 'Admin', icon: <FaKey />, show: profile?.role === 'admin' }
   ];
-  
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches;
-
-  // Tippek gomb: desktopon szöveg is, mobilon csak ikon
+  const visibleNavItems = navItems.filter(item => item.show);
   const tipsButton = (
     <Button
       icon={<FaLightbulb />}
@@ -63,17 +37,17 @@ export default function NavBar({ activeModule, setActiveModule }) {
       {!isMobile && s.blog}
     </Button>
   );
-
-  const visibleNavItems = navItems.filter(item => item.show);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleNavClick = (key) => {
-    setActiveModule(key);
+    const path = navKeyToPath[key] || '/';
+    navigate(path);
     setIsMenuOpen(false);
   };
 
   const handleLogout = async () => {
     await signOut();
-    setActiveModule('teas');
+    navigate('/teas');
     setIsMenuOpen(false);
   };
 
@@ -84,7 +58,7 @@ export default function NavBar({ activeModule, setActiveModule }) {
         alt="TeaKeeper Logo"
         className={styles.logo}
         style={{ cursor: 'pointer' }}
-        onClick={() => setActiveModule('home')}
+        onClick={() => handleNavClick('home')}
       />
 
       {/* Főmenü asztali nézetben */}
@@ -93,8 +67,8 @@ export default function NavBar({ activeModule, setActiveModule }) {
           {visibleNavItems.map(({ key, label, icon, extraClass }) => (
             <Button
               key={key}
-              icon={icon}
-              className={`styles.navButton ${activeModule === key ? styles.activeNav : ''} ${extraClass || ''}`}
+              icon={icon || null}
+              className={`${styles.navButton} ${extraClass || ''}`}
               onClick={() => handleNavClick(key)}
             >
               {label}
@@ -104,7 +78,7 @@ export default function NavBar({ activeModule, setActiveModule }) {
       )}
 
       <div className={styles.actions}>
-        <Button onClick={toggleLanguage} className={styles.navButton}>
+        <Button icon={null} onClick={toggleLanguage} className={styles.navButton}>
           {lang === 'hu' ? 'EN' : 'HU'}
         </Button>
         {tipsButton}
@@ -115,9 +89,13 @@ export default function NavBar({ activeModule, setActiveModule }) {
             onClick={() => handleNavClick(user ? 'profile' : 'login')}
             aria-label="Profil"
             icon={<FaUser size={24} />}
+            children={user ? s.profile : s.login}
           />
         )}
+
       </div>
     </nav>
   );
 }
+
+export default NavBar;
