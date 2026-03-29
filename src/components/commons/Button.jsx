@@ -1,5 +1,9 @@
 export default function Button({ variant = 'secondary', icon, children, className = '', ...buttonProps }) {
-	const variantClass = variant === 'primary' ? 'button-primary' : 'button-secondary';
+	const variantClass = {
+		primary: 'button-primary',
+		danger: 'button-danger',
+		secondary: 'button-secondary',
+	}[variant] || 'button-secondary';
 	const hasText = !!children;
 	return (
 		<button

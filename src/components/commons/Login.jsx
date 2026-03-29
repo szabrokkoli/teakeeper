@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { supabase } from '../../services/supabaseClient';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from '../../styles/commons/Login.module.css';
@@ -8,6 +10,9 @@ export default function Login() {
   const { signIn, signUp } = useAuth();
   const { lang } = useLanguage();
   const s = strings[lang].login;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   const [isLoginView, setIsLoginView] = useState(true);
   const [email, setEmail] = useState('');
@@ -15,6 +20,21 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [resetting, setResetting] = useState(false);
+  const handleResetPassword = async () => {
+    setError(null);
+    setMessage(null);
+    setResetting(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      if (error) throw error;
+      setMessage(s.resetEmailSent);
+    } catch (err) {
+      setError(s.resetEmailError);
+    } finally {
+      setResetting(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +46,7 @@ export default function Login() {
       if (isLoginView) {
         const { error } = await signIn({ email, password });
         if (error) throw error;
-        setMessage(s.checkEmail);
+        navigate(from, { replace: true });
       } else {
         const { error } = await signUp({ email, password });
         if (error) throw error;
@@ -60,6 +80,17 @@ export default function Login() {
         <button type="submit" disabled={loading}>
           {isLoginView ? s.loginBtn : s.signupBtn}
         </button>
+        {isLoginView && (
+          <button
+            type="button"
+            className={styles.switchBtn}
+            style={{ marginTop: 8, marginBottom: 8 }}
+            onClick={handleResetPassword}
+            disabled={resetting || !email}
+          >
+            {s.forgotPassword}
+          </button>
+        )}
         <div>
           <button
             type="button"

@@ -1,0 +1,102 @@
+.bioBox {
+  background: var(--color-bg-info-subtle);
+  border-radius: var(--radius-md, 10px);
+  padding: 0.8em 0.8em;
+  margin: 2em 0em;
+  box-shadow: none;
+  border: none;
+  text-align: left;
+}
+.profileCard {
+  max-width: 420px;
+  margin: 2rem 1em;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-border);
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.avatar {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+  background: var(--color-bg-elevated);
+}
+
+.avatarPlaceholder {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  background: var(--color-border);
+  display: inline-block;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.username {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.email {
+  color: var(--color-text-secondary);
+  font-size: 0.98em;
+}
+.bio {
+  color: var(--color-text-muted);  
+  font-size: 1em;
+  margin-top: 0.3em;
+  margin-bottom: 0.7em;
+  font-style: italic;
+  white-space: pre-line;
+  text-align: left;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+.statsRow {
+  display: flex;
+  margin: 1.2rem 1.2em;
+  justify-content: space-between;
+}
+.statBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-md);
+  padding: 0.7em 1.2em;
+  min-width: 110px;
+  width: 110px;
+  box-sizing: border-box;
+}
+.statIcon {
+  font-size: 1.3em;
+  color: var(--color-primary);
+  margin-bottom: 0.15em;
+}
+.statLabel {
+  color: var(--color-text-secondary);
+  font-size: 0.98em;
+  margin-bottom: 0.2em;
+}
+.statValue {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: var(--color-primary);
+}

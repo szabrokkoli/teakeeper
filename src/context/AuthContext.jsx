@@ -10,6 +10,7 @@ import { supabase } from '../services/supabaseClient';
  * @property {(data: any) => Promise<any>} signUp
  * @property {(data: any) => Promise<any>} signIn
  * @property {() => Promise<any>} signOut
+ * @property {React.Dispatch<React.SetStateAction<any>>} setProfile
  */
 /** @type {import('react').Context<AuthContextType>} */
 const AuthContext = createContext({});
@@ -81,6 +82,7 @@ export const AuthProvider = ({ children }) => {
     session,
     user,
     profile,
+    setProfile, // lehetővé teszi a profil state frissítését kívülről
     loading,
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signInWithPassword(data),

@@ -1,5 +1,4 @@
 import { supabase } from './supabaseClient';
-import imageCompression from 'browser-image-compression';
 
 export async function getAllPosts() {
   const { data, error } = await supabase
@@ -11,34 +10,6 @@ export async function getAllPosts() {
   return data;
 }
 
-export async function uploadImage(file) {
-  if (!file) return null;
-
-  try {
-    const options = {
-      maxSizeMB: 0.5,
-      maxWidthOrHeight: 1200,
-      useWebWorker: true
-    };
-
-    const compressedFile = await imageCompression(file, options);
-    const fileName = `${Date.now()}_${compressedFile.name}`;
-
-    const { data, error } = await supabase.storage
-      .from('post-images')
-      .upload(fileName, compressedFile);
-
-    if (error) throw error;
-
-    const url = supabase.storage
-      .from('post-images')
-      .getPublicUrl(fileName).data.publicUrl;
-      
-    return url;
-  } catch (error) {
-    throw error;
-  }
-}
 
 export async function createPost({ content, imageUrl, author }) {
   const { data, error } = await supabase

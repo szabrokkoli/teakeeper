@@ -12,9 +12,11 @@ import RandomTea from './pages/RandomTea';
 import Friends from './pages/Friends';
 import Tips from './pages/Tips';
 import Profile from './pages/Profile';
+import UserProfilePage from './pages/UserProfilePage';
 import Login from './components/commons/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import HomeFeed from './pages/HomeFeed';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const { user, profile } = useAuth();
@@ -34,7 +36,9 @@ function App() {
             <Route path="/myteas" element={user ? <MyTeas /> : <Navigate to="/login" />} />
             <Route path="/friends" element={user ? <Friends /> : <Navigate to="/login" />} />
             <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/user/:id" element={<UserProfilePage />} />
             <Route path="/admin" element={user && profile?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/" />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* 404 fallback */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
